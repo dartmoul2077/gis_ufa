@@ -10,15 +10,15 @@
             <span class="text-white cursor-pointer hover:underline" @click="$emit('navigateToWay')">Все маршруты</span>
           </li>
   
-          <li>
+          <li v-if="!isLoggedIn">
             <span class="text-white cursor-pointer hover:underline" @click="$emit('navigateToRegister')">Авторизация</span>
           </li>
 
-          <li>
+          <li v-if="!isLoggedIn">
             <span class="text-white cursor-pointer hover:underline" @click="$emit('navigateToLogin')">Войти</span>
           </li>
 
-          <li>
+          <li v-if="isLoggedIn">
             <span class="text-white cursor-pointer hover:underline"> <button @click="$emit('logout')" v-if="isLoggedIn">Sign Out</button></span>
           </li>
 
