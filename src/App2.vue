@@ -12,12 +12,12 @@ import testpop from './components/testpop.vue';
 import register from './views/register.vue';
 import signIn from './views/signIn.vue';
 
+import { onMounted, ref } from 'vue';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+
 
 const currentPage = ref('way');
 const currentRoute = ref('routeAll'); // Текущий компонент карты
-
-import { onMounted, ref } from 'vue';
-import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 
 const isLoggedIn = ref(false)
 
@@ -33,7 +33,6 @@ onMounted (() => {
         }
     });
 });
-
 
 const hadleSignOut = () => {
     signOut(auth).then(() => {

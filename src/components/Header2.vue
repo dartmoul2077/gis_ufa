@@ -19,7 +19,7 @@
           </li>
 
           <li v-if="isLoggedIn">
-            <span class="text-white cursor-pointer hover:underline"> <button @click="$emit('logout')" v-if="isLoggedIn">Sign Out</button></span>
+            <span class="text-white cursor-pointer hover:underline"> <button @click="$emit('logout')" v-if="isLoggedIn">Выйти</button></span>
           </li>
 
           <!-- <li >
