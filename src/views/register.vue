@@ -22,6 +22,11 @@ const register = () => {
             console.log("Successfully registered!");
             console.log(userCredential.user); // Теперь userCredential содержит пользователя
             // window.location.href = '/';
+            return auth.signOut(); // Разлогиниваем пользователя после регистрации
+        })
+        .then(() => {
+            console.log("User signed out after registration");
+            window.location.href = '/'; // Перенаправляем на главную страницу
         })
         .catch((error) => {
             console.log("Error:", error.code);

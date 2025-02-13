@@ -23,7 +23,7 @@ const sign= () => {
         .then((userCredential) => {
             console.log("Successfully signed in", userCredential.user);
             // console.log(); // Теперь userCredential содержит пользователя
-            // window.location.href = '/';
+            window.location.href = '/';
         })
         .catch((error) => {
             console.log("Error:", error.code);
