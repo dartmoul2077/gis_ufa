@@ -4,7 +4,7 @@ import way from './components/way.vue';
 import page2 from './components/page2.vue';
 // import { RouterView } from 'vue-router';
 import page3 from './components/page3.vue';
-import { ref } from 'vue';
+// import { ref } from 'vue';
 import routeAll from './components/routeAll.vue';
 import routePif from './components/routePif.vue';
 import popup from './components/popup.vue';
@@ -16,12 +16,36 @@ import signIn from './views/signIn.vue';
 const currentPage = ref('way');
 const currentRoute = ref('routeAll'); // Текущий компонент карты
 
+import { onMounted, ref } from 'vue';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 
+const isLoggedIn = ref(false)
+
+let auth;
+onMounted (() => {
+    auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            isLoggedIn.value = true;
+        }
+        else {
+            isLoggedIn.value = false
+        }
+    });
+});
+
+
+const hadleSignOut = () => {
+    signOut(auth).then(() => {
+
+    });
+
+}
 
 </script>
 
 <template>
-    <Header2 @navigateToWay="currentPage = 'way'; currentRoute = 'routeAll'" @navigateToRegister="currentPage = 'register'" @navigateToLogin="currentPage = 'signIn'"/>
+    <Header2 :isLoggedIn="isLoggedIn" @navigateToWay="currentPage = 'way'; currentRoute = 'routeAll'" @navigateToRegister="currentPage = 'register'" @navigateToLogin="currentPage = 'signIn'" @logout="hadleSignOut"/>
     <div class="flex min-h-screen"> <!--недавно-->
         <div class="bg-indigo-800 min-h-screen w-[500px] flex flex-col items-center space-y-12">
             <!-- <way v-if="currentPage === 'way'" @navigate="currentPage = 'page2' " /> -->
