@@ -1,9 +1,17 @@
 <template>
-    <h1>Войти в аккаунт</h1>
-    <p><input type="text" placeholder="Email" v-model="email" /></p>
-    <p><input type="password" placeholder="Пароль" v-model="password" /></p>
+    <h1 class="text-white text-xl">Войти в аккаунт</h1>
+    <p><input class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 shadow-sm 
+                   focus:border-blue-500 focus:ring-2 focus:ring-blue-300 
+                   transition duration-300 ease-in-out" 
+                   type="text" placeholder="Email" v-model="email" /></p>
+    <p><input class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 shadow-sm 
+                   focus:border-blue-500 focus:ring-2 focus:ring-blue-300 
+                   transition duration-300 ease-in-out" 
+                   type="password" placeholder="Пароль" v-model="password" /></p>
     <p v-if="errmsg" class="text-red-500">{{ errmsg }}</p>
-    <p><button @click="sign">Submit</button></p>
+    <p><button @click="sign" class="bg-blue-500 text-white font-semibold px-6 py-2 rounded-lg 
+                   hover:bg-blue-600 transition duration-300 ease-in-out 
+                   shadow-md hover:shadow-lg active:scale-95" >Войти</button></p>
 </template>
 
 <script setup>

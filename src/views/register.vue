@@ -1,8 +1,10 @@
 <template>
-    <h1>Создать аккаунт</h1>
-    <p><input type="text" placeholder="Email" v-model="email" /></p>
-    <p><input type="password" placeholder="Пароль" v-model="password" /></p>
-    <p><button @click="register">Submit</button></p>
+    <h1 class="text-white text-xl">Создать аккаунт</h1>
+    <p><input class="rounded border-2 h-6" type="text" placeholder="Email" v-model="email" /></p>
+    <p><input class="rounded border-2 h-6" type="password" placeholder="Пароль" v-model="password" /></p>
+    <p><button @click="register" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg 
+                   hover:bg-blue-600 transition duration-300 ease-in-out 
+                   shadow-md hover:shadow-lg active:scale-95">Создать</button></p>
 </template>
 
 <script setup>
