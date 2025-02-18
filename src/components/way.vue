@@ -31,39 +31,46 @@ const resetRouteHighlight = () => {
 </template> -->
 
 <script setup>
-import { ref } from 'vue';
-import routeAll from './routeAll.vue';
+import { ref, computed } from 'vue';
 import search from './search.vue';
 import buttons from './buttons.vue';
 
+const searchQuery = ref('');
+const routes = ref([
+  { title: "«Сократ»: научно-популярный маршрут гуманитарной направленности", route: null },
+  { title: "Уфа физико-математическая: «Циолковский». Уфа сквозь призму математики и физики", route: null },
+  { title: "«Уфа естественно-научная: от зарождения жизни на Земле к ноосфере В.И. Вернадского»", route: null },
+  { title: "«Пифагор». IT-UFA", route: "routePif", page: "page2" }, // Теперь есть page2
+  { title: "«Авиценна». Биолого-медицинская экскурсия", route: null },
+  { title: "Шень Ко: мир научно-технических разработок", route: null },
+  { title: "«Дмитрий Менделеев». Уфа – химическая столица России: от атомов к материалам будущего»", route: null }
+]);
+
+const filteredRoutes = computed(() => {
+  return routes.value.filter(route =>
+    route.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
 </script>
 
 <template>
   <span class="text-white text-3xl text-center">Научно-образовательные маршруты по Уфе</span>
-  <search placeholderText="найти маршрут" />
+  
+  <!-- Поле поиска -->
+  <search v-model="searchQuery" placeholderText="найти маршрут" />
 
+  <!-- Фильтрованный список маршрутов -->
   <div class="space-y-3" style="width: 420px">
-    <buttons
-      title="«Сократ»: научно-популярный маршрут гуманитарной направленности"
-    />
-    <buttons
-      title="Уфа физико-математическая: «Циолковский». Уфа сквозь призму математики и физики"
-    />
-    <buttons
-      title="«Уфа естественно-научная: от зарождения жизни на Земле к ноосфере В.И. Вернадского»"
-    />
-    <buttons
-      title="«Пифагор». IT-UFA"
-      @click="() => { $emit('navigate'); $emit('selectRoute', 'routePif') }"
-    />
-    <buttons
-      title="«Авиценна». Биолого-медицинская экскурсия"
-    />
-    <buttons
-      title="Шень Ко: мир научно-технических разработок"
-    />
-    <buttons
-      title="«Дмитрий Менделеев». Уфа – химическая столица России: от атомов к материалам будущего»"
+    <buttons 
+      v-for="route in filteredRoutes" 
+      :key="route.title" 
+      :title="route.title" 
+      @click="
+        () => {
+          if (route.page) $emit('navigate', route.page); // Переключаемся на страницу
+          if (route.route) $emit('selectRoute', route.route); // Меняем маршрут
+        }
+      "
     />
   </div>
 </template>
