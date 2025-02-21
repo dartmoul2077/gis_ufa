@@ -115,7 +115,7 @@ import Timeline_shenko from './Timeline_shenko.vue';
             Объекты маршрута Шень Ко: мир научно-технических разработок
           </span>
 
-          <Timeline />
+          <Timeline_shenko />
 
         </div>
       </div>

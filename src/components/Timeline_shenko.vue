@@ -45,7 +45,7 @@ export default {
   left: 25px; /* Линия центрируется относительно кружков */
   width: 2px;
   height: calc(100% - 40px);
-  background-color: rgba(0,148,255,255); /* Цвет линии */
+  background-color: rgba(52,215,215,255); /* Цвет линии */
 }
 
 .timeline-item {
@@ -59,7 +59,7 @@ export default {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: rgba(0,148,255,255); /* Синий кружок */
+  background-color: rgba(52,215,215,255); /* Синий кружок */
   color: rgba(50,54,142,255);
   display: flex;
   justify-content: center;
