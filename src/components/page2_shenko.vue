@@ -1,6 +1,6 @@
 <script>
 import Search from './search.vue';
-import Timeline from './Timeline.vue';
+import Timeline_shenko from './Timeline_shenko.vue';
 
   export default {
     data() {
@@ -9,7 +9,7 @@ import Timeline from './Timeline.vue';
       };
     },
     components: {
-      Timeline,
+      Timeline_shenko,
       Search
     },
   };
@@ -17,7 +17,7 @@ import Timeline from './Timeline.vue';
 
 
 <template>
-    <span class=" text-white text-3xl text-center" >Шень Ко: мир научно-технических разработок</span>
+    <span class=" text-white text-3xl text-center" >Шень Ко</span>
     <search placeholderText="найти объект" /> 
 
     <div class="w-full">
@@ -112,7 +112,7 @@ import Timeline from './Timeline.vue';
         <!-- Контент вкладки "объекты маршрута" -->
         <div v-if="activeTab === 'objects'" class="text-white px-3 space-y-5">
           <span class="text-l">
-            Объекты маршрута «Пифагор». IT-UFA
+            Объекты маршрута Шень Ко: мир научно-технических разработок
           </span>
 
           <Timeline />

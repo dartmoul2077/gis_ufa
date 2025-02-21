@@ -50,7 +50,11 @@ const hadleSignOut = () => {
     <div class="flex min-h-screen"> <!--недавно-->
         <div class="bg-indigo-800 min-h-screen w-[500px] flex flex-col items-center space-y-12">
             <!-- <way v-if="currentPage === 'way'" @navigate="currentPage = 'page2' " /> -->
-            <way v-if="currentPage === 'way'" @navigate="currentPage = 'page2'" @selectRoute="(route) => currentRoute = route" />
+            <way v-if="currentPage === 'way'" @navigate="currentPage = 'page2'" @selectRoute="(route) => {
+                currentRoute = route;
+                if (route === 'routeShenko') currentPage = 'page2_shenko';
+                else if (route === 'routeAll') currentPage = 'page2';
+            }" />
             <page2 v-if="currentPage === 'page2'" @navigateBack="currentPage = 'way'" />
             <page2_shenko v-if="currentPage === 'page2_shenko'" @navigateBack="currentPage = 'way'" />
             <page3 v-if="currentPage === 'page3'" @navigateBack="currentPage = 'page2'"/>
