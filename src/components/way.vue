@@ -40,9 +40,9 @@ const routes = ref([
   { title: "«Сократ»: научно-популярный маршрут гуманитарной направленности", route: null },
   { title: "Уфа физико-математическая: «Циолковский». Уфа сквозь призму математики и физики", route: null },
   { title: "«Уфа естественно-научная: от зарождения жизни на Земле к ноосфере В.И. Вернадского»", route: null },
-  { title: "«Пифагор». IT-UFA", route: "routePif", page: "page2" }, // Теперь есть page2
+  { title: "«Пифагор». IT-UFA", route: "routePif", page: "page2" },
   { title: "«Авиценна». Биолого-медицинская экскурсия", route: null },
-  { title: "Шень Ко: мир научно-технических разработок", route: null },
+  { title: "Шень Ко: мир научно-технических разработок", route: "routeShenko", page: "page2_shenko" },
   { title: "«Дмитрий Менделеев». Уфа – химическая столица России: от атомов к материалам будущего»", route: null }
 ]);
 
@@ -65,12 +65,14 @@ const filteredRoutes = computed(() => {
       v-for="route in filteredRoutes" 
       :key="route.title" 
       :title="route.title" 
-      @click="
-        () => {
-          if (route.page) $emit('navigate', route.page); // Переключаемся на страницу
-          if (route.route) $emit('selectRoute', route.route); // Меняем маршрут
-        }
-      "
+      @click="() => {
+        console.log('Нажали маршрут:', route.title);
+        console.log('Переключаем на страницу:', route.page);
+        console.log('Переключаем карту на:', route.route);
+        
+        if (route.page) $emit('navigate', route.page);
+        if (route.route) $emit('selectRoute', route.route);
+      }"
     />
   </div>
 </template>
