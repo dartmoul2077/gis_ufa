@@ -13,9 +13,9 @@
   
         <div class="popup-actions">
           <button class="popup-btn">
-            <span>🔍</span> Приблизить
+            <span></span> Перейти на сайт
           </button>
-          <button class="popup-btn">
+          <button class="popup-btn" @click="navigateToPage">
             <span>ℹ️</span> Подробнее
           </button>
         </div>
@@ -38,7 +38,8 @@
   import { Style, Stroke, Fill, Circle } from 'ol/style';
   
   export default {
-    setup() {
+    emits: ['navigateToPage3'], // Объявляем событие
+    setup(_, {emit}) {
       const popupVisible = ref(false);
       const popupText = ref('Точка на карте');
       const popupPosition = ref({ x: 0, y: 0 });
@@ -144,10 +145,24 @@
       });
   
       const hidePopup = () => {
+      const popup = document.querySelector('.custom-popup');
+      if (popup) {
+        popup.classList.add('hidden');
+        setTimeout(() => {
         popupVisible.value = false;
-      };
+      }, 300); // Ждем окончания анимации (300 мс)
+      }};
+
+        // Функция для перехода на page3
+      const navigateToPage = () => {
+        if (popupText.value === "АО «Уфанет»") {
+        hidePopup(); // Плавно скрываем popup перед переходом
+        setTimeout(() => {
+          emit('navigateToPage3');
+      }, 300); // Ждем, чтобы popup скрылся
+      }};
   
-      return { popupVisible, popupText, popupPosition, popupAddress, hidePopup };
+      return { popupVisible, popupText, popupPosition, popupAddress, hidePopup, navigateToPage };
     },
   };
 </script>
@@ -169,6 +184,9 @@
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
     width: 280px;
     font-family: Arial, sans-serif;
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.3s ease, transform 0.3s ease;
   }
   
   .close-btn {
@@ -215,6 +233,11 @@
     border-radius: 6px;
     background: #f3f3f3;
     cursor: pointer;
+  }
+
+  .custom-popup.hidden {
+    opacity: 0;
+    transform: scale(0.9);
   }
   
   .popup-btn:hover {
