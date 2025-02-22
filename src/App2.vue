@@ -13,6 +13,7 @@ import register from './views/register.vue';
 import signIn from './views/signIn.vue';
 import routeShenko from './components/routeShenko.vue';
 import page2_shenko from './components/page2_shenko.vue';
+import ufarob from './components/ufarob.vue';
 
 import { onMounted, ref } from 'vue';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
@@ -39,14 +40,18 @@ onMounted (() => {
 const hadleSignOut = () => {
     signOut(auth).then(() => {
 
-    });
+    });}
 
-}
 
 </script>
 
 <template>
-    <Header2 :isLoggedIn="isLoggedIn" @navigateToWay="currentPage = 'way'; currentRoute = 'routeAll'" @navigateToRegister="currentPage = 'register'" @navigateToLogin="currentPage = 'signIn'" @logout="hadleSignOut"/>
+    <Header2 :isLoggedIn="isLoggedIn" 
+    @navigateToWay="currentPage = 'way'; currentRoute = 'routeAll'" 
+    @navigateToRegister="currentPage = 'register'" 
+    @navigateToLogin="currentPage = 'signIn'" 
+    @logout="hadleSignOut"/>
+
     <div class="flex min-h-screen"> <!--недавно-->
         <div class="bg-indigo-800 min-h-screen w-[500px] flex flex-col items-center space-y-12">
             <!-- <way v-if="currentPage === 'way'" @navigate="currentPage = 'page2' " /> -->
@@ -55,17 +60,19 @@ const hadleSignOut = () => {
                 if (route === 'routeShenko') currentPage = 'page2_shenko';
                 else if (route === 'routeAll') currentPage = 'page2';
             }" />
+
             <page2 v-if="currentPage === 'page2'" @navigateBack="currentPage = 'way'" />
             <page2_shenko v-if="currentPage === 'page2_shenko'" @navigateBack="currentPage = 'way'" />
             <page3 v-if="currentPage === 'page3'" @navigateBack="currentPage = 'page2'"/>
             <register v-if="currentPage === 'register'" />
             <signIn v-if="currentPage === 'signIn'" />
+            <ufarob v-if="currentPage === 'ufarob'" @navigateBack="currentPage = 'page2'"/>
             
         </div>
 
         <div class="bg-white flex-grow">
             <routeAll v-if="currentRoute === 'routeAll'" />
-            <popup v-else-if="currentRoute === 'routePif'" @navigateToPage3="currentPage = 'page3'"/>
+            <popup v-else-if="currentRoute === 'routePif'" @navigateToPage3="currentPage = 'page3'" @navigateToUfarob="currentPage = 'ufarob'"/>
             <routeShenko v-else-if="currentRoute === 'routeShenko'" />
         </div>
 

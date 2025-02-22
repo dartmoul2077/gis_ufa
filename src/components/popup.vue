@@ -5,7 +5,7 @@
       <!-- Popup -->
       <div v-if="popupVisible" :style="{ top: popupPosition.y + 'px', left: popupPosition.x + 'px' }" class="custom-popup">
         <button class="close-btn" @click="hidePopup">✖</button>
-        <h3 class="popup-title">IF-UFA</h3>
+        <h3 class="popup-title">IT-UFA</h3>
         <p class="popup-subtitle">Наименование</p>
         <p class="popup-content">{{ popupText }} </p>
         <p class="popup-subtitle">Адрес</p>
@@ -40,7 +40,7 @@
 
 
   export default {
-    emits: ['navigateToPage3'], // Объявляем событие
+    emits: ['navigateToUfarob', 'navigateToPage3'], // Объявляем событие
     setup(_, {emit}) {
       const popupVisible = ref(false);
       const popupText = ref('Точка на карте');
@@ -162,12 +162,19 @@
 
         // Функция для перехода на page3
       const navigateToPage = () => {
-        if (popupText.value === "АО «Уфанет»") {
-        hidePopup(); // Плавно скрываем popup перед переходом
-        setTimeout(() => {
-          emit('navigateToPage3');
-      }, 300); // Ждем, чтобы popup скрылся
-      }};
+        if (popupText.value === "Центр роботизации бизнеса «Ufarobotics»") {
+          hidePopup(); // Плавно скрываем popup перед переходом
+          setTimeout(() => {
+            emit('navigateToUfarob'); // Эмитируем событие для перехода на ufarob.vue
+          }, 300); // Ждем, чтобы popup скрылся
+        } else if (popupText.value === "АО «Уфанет»") {
+          hidePopup(); // Плавно скрываем popup перед переходом
+          setTimeout(() => {
+            emit('navigateToPage3'); // Эмитируем событие для перехода на ufanet.vue
+          }, 300); // Ждем, чтобы popup скрылся
+          }
+          // Можно добавить дополнительные условия для других объектов
+          };
   
       return { popupVisible, popupText, popupPosition, popupAddress, hidePopup, navigateToPage, popupUrl };
     },
