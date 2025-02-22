@@ -67,7 +67,7 @@
       </p>
 
       <span>
-            Ссылка на сайт: <a href="https://plgn.ru/">https://plgn.ru/</a>
+            Ссылка на сайт: <a href="https://www.ufanet.ru/">https://www.ufanet.ru/</a>
       </span>
     </div>
 

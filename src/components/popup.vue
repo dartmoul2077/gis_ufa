@@ -12,9 +12,10 @@
         <p class="popup-content">{{ popupAddress }}</p>
   
         <div class="popup-actions">
-          <button class="popup-btn">
-            <span></span> Перейти на сайт
-          </button>
+          <a :href="popupUrl" target="_blank" class="popup-btn" v-if="popupUrl">
+            <span>🔗</span> Перейти на сайт
+          </a>
+
           <button class="popup-btn" @click="navigateToPage">
             <span>ℹ️</span> Подробнее
           </button>
@@ -36,7 +37,8 @@
   import { Point } from 'ol/geom';
   import { Feature } from 'ol';
   import { Style, Stroke, Fill, Circle } from 'ol/style';
-  
+
+
   export default {
     emits: ['navigateToPage3'], // Объявляем событие
     setup(_, {emit}) {
@@ -45,6 +47,7 @@
       const popupPosition = ref({ x: 0, y: 0 });
       const popupOffset = ref({ x: 0, y: 0 });
       const popupAddress = ref(""); // Хранит адрес для текущей точки
+      const popupUrl = ref("");
   
       onMounted(() => {
         const map = new Map({
@@ -91,14 +94,14 @@
         // === Слой точек ===
         const pointSource = new VectorSource();
         const coordinates = [
-          [55.936081, 54.720401, "Кампус Евразийского НОЦ РБ", { x: 650, y: 485 }, "ул. Заки Валиди, 32/2"],
-          [55.940732, 54.724981, "УУНиТ", { x: 680, y: 440 }, "ул. Карла Маркса, 12"],
-          [55.942299, 54.729234, "ООО НПП «Полигон»", { x: 690, y: 395 }, "ул. Карла Маркса, 37/1"],
-          [55.947889, 54.726752, "Музей связи компании «Ростелеком»", { x: 715, y: 420 }, "ул. Ленина, 30"],
-          [55.960789, 54.729599, "Детский технопарк «Кванториум Башкортостана»", { x: 790, y: 375 }, "ул. Кирова, 43"],
-          [55.983218, 54.726248, "Проектный офис цифровой трансформации «Ростелеком»", { x: 925, y: 410 }, "ул. Кирова, 105"],
-          [56.007203, 54.716375, "Центр роботизации бизнеса «Ufarobotics»", { x: 1070, y: 510 }, "ул. Менделеева, 134/7, 4 этаж"],
-          [55.989414, 54.741021, "АО «Уфанет»", { x: 965, y: 280 }, "пр. Октября, 4/3"],
+          [55.936081, 54.720401, "Кампус Евразийского НОЦ РБ", { x: 650, y: 485 }, "ул. Заки Валиди, 32/2", "https://campus.nocrb.ru/"],
+          [55.940732, 54.724981, "УУНиТ", { x: 680, y: 440 }, "ул. Карла Маркса, 12", "https://uust.ru/"],
+          [55.942299, 54.729234, "ООО НПП «Полигон»", { x: 690, y: 395 }, "ул. Карла Маркса, 37/1", "https://plgn.ru/"],
+          [55.947889, 54.726752, "Музей связи компании «Ростелеком»", { x: 715, y: 420 }, "ул. Ленина, 30", "https://rostelecom-rb.ru/muzey-svyazi/"],
+          [55.960789, 54.729599, "Детский технопарк «Кванториум Башкортостана»", { x: 790, y: 375 }, "ул. Кирова, 43", "https://kvantoriumrb.02edu.ru/"],
+          [55.983218, 54.726248, "Проектный офис цифровой трансформации «Ростелеком»", { x: 925, y: 410 }, "ул. Кирова, 105", "https://rostelecom-rb.ru/"],
+          [56.007203, 54.716375, "Центр роботизации бизнеса «Ufarobotics»", { x: 1070, y: 510 }, "ул. Менделеева, 134/7, 4 этаж", "https://ufarobotics.ru/"],
+          [55.989414, 54.741021, "АО «Уфанет»", { x: 965, y: 280 }, "пр. Октября, 4/3", "https://www.ufanet.ru/"],
         ];
   
         const pointStyle = new Style({
@@ -109,13 +112,14 @@
           }),
         });
   
-        coordinates.forEach(([lon, lat, name, position, address]) => {
+        coordinates.forEach(([lon, lat, name, position, address, url]) => {
           const pointFeature = new Feature({
             geometry: new Point(fromLonLat([lon, lat])),
           });
           pointFeature.set('name', name);
           pointFeature.set('popupPosition', position); // Сохраняем фиксированную позицию для каждой точки
           pointFeature.set('address', address); // Добавляем адрес
+          pointFeature.set('url', url); // Добавляем URL для каждой точки
           pointFeature.setStyle(pointStyle);
           pointSource.addFeature(pointFeature);
         });
@@ -133,13 +137,16 @@
             const name = feature.get('name');
             const position = feature.get('popupPosition'); // Получаем фиксированную позицию для этой точки
             const address = feature.get('address'); // Получаем адрес точ
+            const url = feature.get('url');
 
             if (name) {
               popupText.value = name;
               popupAddress.value = address; // Устанавливаем адрес
               popupPosition.value = position; // Устанавливаем позицию окна для данной точки
               popupVisible.value = true;
+              popupUrl.value = url;
             }
+
           });
         });
       });
@@ -162,7 +169,7 @@
       }, 300); // Ждем, чтобы popup скрылся
       }};
   
-      return { popupVisible, popupText, popupPosition, popupAddress, hidePopup, navigateToPage };
+      return { popupVisible, popupText, popupPosition, popupAddress, hidePopup, navigateToPage, popupUrl };
     },
   };
 </script>
