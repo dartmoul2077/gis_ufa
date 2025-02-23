@@ -94,6 +94,7 @@ const hadleSignOut = () => {
             @navigateToTechPark = "currentPage = 'tech_park'"
             @navigateToUust = "currentPage = 'uust'"/>
             
+            
             <routeShenko v-else-if="currentRoute === 'routeShenko'" />
         </div>
 
