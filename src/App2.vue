@@ -14,6 +14,10 @@ import signIn from './views/signIn.vue';
 import routeShenko from './components/routeShenko.vue';
 import page2_shenko from './components/page2_shenko.vue';
 import ufarob from './components/ufarob.vue';
+import nots from './components/nots.vue';
+import poligon from './components/poligon.vue';
+import rosstel_muz from './components/rosstel_muz.vue';
+import rosstel from './components/rosstel.vue';
 
 import { onMounted, ref } from 'vue';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
@@ -67,12 +71,22 @@ const hadleSignOut = () => {
             <register v-if="currentPage === 'register'" />
             <signIn v-if="currentPage === 'signIn'" />
             <ufarob v-if="currentPage === 'ufarob'" @navigateBack="currentPage = 'page2'"/>
+            <nots v-if="currentPage === 'nots'" @navigateBack="currentPage = 'page2'" />
+            <poligon v-if="currentPage === 'poligon'" @navigateBack="currentPage = 'page2'" />
+            <rosstel_muz v-if="currentPage === 'rosstel_muz'" @navigateBack="currentPage = 'page2'" />
+            <rosstel v-if="currentPage === 'rosstel'" @navigateBack="currentPage = 'page2'" />
             
         </div>
 
         <div class="bg-white flex-grow">
             <routeAll v-if="currentRoute === 'routeAll'" />
-            <popup v-else-if="currentRoute === 'routePif'" @navigateToPage3="currentPage = 'page3'" @navigateToUfarob="currentPage = 'ufarob'"/>
+            <popup v-else-if="currentRoute === 'routePif'" 
+            @navigateToPage3="currentPage = 'page3'" 
+            @navigateToUfarob="currentPage = 'ufarob'"
+            @navigateToNots = "currentPage = 'nots'"
+            @navigateToPoligon =  "currentPage = 'poligon'"
+            @navigateToRostMuz = "currentPage = 'rosstel_muz'"
+            @navigateToRosstel = "currentPage = 'rosstel'"/>
             <routeShenko v-else-if="currentRoute === 'routeShenko'" />
         </div>
 

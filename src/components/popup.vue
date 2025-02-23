@@ -40,7 +40,7 @@
 
 
   export default {
-    emits: ['navigateToUfarob', 'navigateToPage3'], // Объявляем событие
+    emits: ['navigateToUfarob', 'navigateToPage3', 'navigateToNots', 'navigateToPoligon', 'navigateToRostMuz', 'navigateToRosstel'], // Объявляем событие
     setup(_, {emit}) {
       const popupVisible = ref(false);
       const popupText = ref('Точка на карте');
@@ -173,7 +173,30 @@
             emit('navigateToPage3'); // Эмитируем событие для перехода на ufanet.vue
           }, 300); // Ждем, чтобы popup скрылся
           }
-          // Можно добавить дополнительные условия для других объектов
+          else if (popupText.value === "Кампус Евразийского НОЦ РБ") {
+          hidePopup(); // Плавно скрываем popup перед переходом
+          setTimeout(() => {
+            emit('navigateToNots'); // Эмитируем событие для перехода на ufanet.vue
+          }, 300); // Ждем, чтобы popup скрылся
+          }
+          else if (popupText.value === "ООО НПП «Полигон»") {
+          hidePopup(); // Плавно скрываем popup перед переходом
+          setTimeout(() => {
+            emit('navigateToPoligon'); // Эмитируем событие для перехода на ufanet.vue
+          }, 300); // Ждем, чтобы popup скрылся
+          }
+          else if (popupText.value === "Музей связи компании «Ростелеком»") {
+          hidePopup(); // Плавно скрываем popup перед переходом
+          setTimeout(() => {
+            emit('navigateToRostMuz'); // Эмитируем событие для перехода на ufanet.vue
+          }, 300); // Ждем, чтобы popup скрылся
+          }
+          else if (popupText.value === "Проектный офис цифровой трансформации «Ростелеком»") {
+          hidePopup(); // Плавно скрываем popup перед переходом
+          setTimeout(() => {
+            emit('navigateToRosstel'); // Эмитируем событие для перехода на ufanet.vue
+          }, 300); // Ждем, чтобы popup скрылся
+          }
           };
   
       return { popupVisible, popupText, popupPosition, popupAddress, hidePopup, navigateToPage, popupUrl };
