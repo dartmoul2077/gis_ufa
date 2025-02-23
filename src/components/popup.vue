@@ -40,7 +40,8 @@
 
 
   export default {
-    emits: ['navigateToUfarob', 'navigateToPage3', 'navigateToNots', 'navigateToPoligon', 'navigateToRostMuz', 'navigateToRosstel'], // Объявляем событие
+    emits: ['navigateToUfarob', 'navigateToPage3', 'navigateToNots', 'navigateToPoligon', 
+            'navigateToRostMuz', 'navigateToRosstel', 'navigateToTechPark', 'navigateToUust'], // Объявляем событие
     setup(_, {emit}) {
       const popupVisible = ref(false);
       const popupText = ref('Точка на карте');
@@ -195,6 +196,18 @@
           hidePopup(); // Плавно скрываем popup перед переходом
           setTimeout(() => {
             emit('navigateToRosstel'); // Эмитируем событие для перехода на ufanet.vue
+          }, 300); // Ждем, чтобы popup скрылся
+          }
+          else if (popupText.value === "Детский технопарк «Кванториум Башкортостана»") {
+          hidePopup(); // Плавно скрываем popup перед переходом
+          setTimeout(() => {
+            emit('navigateToTechPark'); // Эмитируем событие для перехода на ufanet.vue
+          }, 300); // Ждем, чтобы popup скрылся
+          }
+          else if (popupText.value === "УУНиТ") {
+          hidePopup(); // Плавно скрываем popup перед переходом
+          setTimeout(() => {
+            emit('navigateToUust'); // Эмитируем событие для перехода на ufanet.vue
           }, 300); // Ждем, чтобы popup скрылся
           }
           };

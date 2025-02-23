@@ -18,6 +18,8 @@ import nots from './components/nots.vue';
 import poligon from './components/poligon.vue';
 import rosstel_muz from './components/rosstel_muz.vue';
 import rosstel from './components/rosstel.vue';
+import tech_park from './components/tech_park.vue';
+import uust from './components/uust.vue';
 
 import { onMounted, ref } from 'vue';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
@@ -75,6 +77,8 @@ const hadleSignOut = () => {
             <poligon v-if="currentPage === 'poligon'" @navigateBack="currentPage = 'page2'" />
             <rosstel_muz v-if="currentPage === 'rosstel_muz'" @navigateBack="currentPage = 'page2'" />
             <rosstel v-if="currentPage === 'rosstel'" @navigateBack="currentPage = 'page2'" />
+            <tech_park v-if="currentPage === 'tech_park'" @navigateBack="currentPage = 'page2'"/>
+            <uust v-if="currentPage === 'uust'" @navigateBack="currentPage = 'page2'"/>
             
         </div>
 
@@ -86,7 +90,10 @@ const hadleSignOut = () => {
             @navigateToNots = "currentPage = 'nots'"
             @navigateToPoligon =  "currentPage = 'poligon'"
             @navigateToRostMuz = "currentPage = 'rosstel_muz'"
-            @navigateToRosstel = "currentPage = 'rosstel'"/>
+            @navigateToRosstel = "currentPage = 'rosstel'"
+            @navigateToTechPark = "currentPage = 'tech_park'"
+            @navigateToUust = "currentPage = 'uust'"/>
+            
             <routeShenko v-else-if="currentRoute === 'routeShenko'" />
         </div>
 
