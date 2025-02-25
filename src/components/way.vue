@@ -35,9 +35,10 @@ import { ref, computed } from 'vue';
 import search from './search.vue';
 import buttons from './buttons.vue';
 
+
 const searchQuery = ref('');
 const routes = ref([
-  { title: "«Сократ»: научно-популярный маршрут гуманитарной направленности", route: null },
+  { title: "«Сократ»: научно-популярный маршрут гуманитарной направленности", route: "routeSokrat", page: 'page2_sokrat' },
   { title: "Уфа физико-математическая: «Циолковский». Уфа сквозь призму математики и физики", route: null },
   { title: "«Уфа естественно-научная: от зарождения жизни на Земле к ноосфере В.И. Вернадского»", route: null },
   { title: "«Пифагор». IT-UFA", route: "routePif", page: "page2" },

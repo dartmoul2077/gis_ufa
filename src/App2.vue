@@ -12,7 +12,9 @@ import testpop from './components/testpop.vue';
 import register from './views/register.vue';
 import signIn from './views/signIn.vue';
 import routeShenko from './components/routeShenko.vue';
+import routeSokrat from './components/routeSokrat.vue';
 import page2_shenko from './components/page2_shenko.vue';
+import page2_sokrat from './components/page2_sokrat.vue';
 import ufarob from './components/ufarob.vue';
 import nots from './components/nots.vue';
 import poligon from './components/poligon.vue';
@@ -64,12 +66,15 @@ const hadleSignOut = () => {
             <way v-if="currentPage === 'way'" @navigate="currentPage = 'page2'" @selectRoute="(route) => {
                 currentRoute = route;
                 if (route === 'routeShenko') currentPage = 'page2_shenko';
+                else if (route === 'routeSokrat') currentPage = 'page2_sokrat';
                 else if (route === 'routeAll') currentPage = 'page2';
             }" />
 
             <page2 v-if="currentPage === 'page2'" @navigateBack="currentPage = 'way'" />
             <page2_shenko v-if="currentPage === 'page2_shenko'" @navigateBack="currentPage = 'way'" />
+            <page2_sokrat v-if="currentPage === 'page2_sokrat'" @navigateBack="currentPage = 'way'"/>
             <page3 v-if="currentPage === 'page3'" @navigateBack="currentPage = 'page2'"/>
+
             <register v-if="currentPage === 'register'" />
             <signIn v-if="currentPage === 'signIn'" />
             <ufarob v-if="currentPage === 'ufarob'" @navigateBack="currentPage = 'page2'"/>
@@ -94,8 +99,8 @@ const hadleSignOut = () => {
             @navigateToTechPark = "currentPage = 'tech_park'"
             @navigateToUust = "currentPage = 'uust'"/>
             
-            
             <routeShenko v-else-if="currentRoute === 'routeShenko'" />
+            <routeSokrat v-else-if="currentRoute === 'routeSokrat'"/>
         </div>
 
     </div>
