@@ -2,8 +2,8 @@
 import { ref } from 'vue';
 
 const emit = defineEmits(['apply', 'close']);
-const minDistance = ref(0);
-const maxParticipants = ref(0);
+const minDistance = ref(null);
+const maxParticipants = ref(null);
 
 const applyFilters = () => {
   emit('apply', { minDistance: minDistance.value, maxParticipants: maxParticipants.value });
@@ -15,7 +15,7 @@ const applyFilters = () => {
     <div class="bg-white p-5 rounded-lg w-96">
       <h2 class="text-lg font-bold">Фильтр маршрутов</h2>
       
-      <label class="block mt-3">Минимальная протяженность (км)</label>
+      <label class="block mt-3">Максимальная протяженность (км)</label>
       <input v-model="minDistance" type="number" class="border p-1 w-full">
 
       <label class="block mt-3">Макс. кол-во участников</label>

@@ -129,7 +129,7 @@ const resetFilters = () => {
   <button @click="resetFilters" class="bg-red-500 text-white px-4 py-2 mt-4 rounded">Сбросить фильтры</button>
 
   <filterPop 
-    v-if="showFilterPopup" 
+    v-if="showFilterPopup"
     @apply="applyFilters" 
     @close="showFilterPopup = false"
   />
