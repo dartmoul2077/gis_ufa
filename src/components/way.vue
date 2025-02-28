@@ -31,34 +31,83 @@ const resetRouteHighlight = () => {
 </template> -->
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import search from './search.vue';
 import buttons from './buttons.vue';
-
+import filterPop from './filterPop.vue';
 
 const searchQuery = ref('');
+// Показывать ли окно фильтра
+const showFilterPopup = ref(false);
+
+// Значения фильтра
+const filterDistance = ref(null);
+const filterParticipants = ref(null);
+
+
+// Загружаем фильтры из localStorage при монтировании компонента
+onMounted(() => {
+  const savedFilters = JSON.parse(localStorage.getItem('filters'));
+  if (savedFilters) {
+    filterDistance.value = savedFilters.filterDistance;
+    filterParticipants.value = savedFilters.filterParticipants;
+  }
+
+  const savedSearchQuery = localStorage.getItem('searchQuery');
+  if (savedSearchQuery) {
+    searchQuery.value = savedSearchQuery;
+  }
+});
+
 const routes = ref([
-  { title: "«Сократ»: научно-популярный маршрут гуманитарной направленности", route: "routeSokrat", page: 'page2_sokrat' },
+  { title: "«Сократ»: научно-популярный маршрут гуманитарной направленности", route: "routeSokrat", page: 'page2_sokrat', distance: 8.5, participants: 15 },
   { title: "Уфа физико-математическая: «Циолковский». Уфа сквозь призму математики и физики", route: null },
   { title: "«Уфа естественно-научная: от зарождения жизни на Земле к ноосфере В.И. Вернадского»", route: null },
-  { title: "«Пифагор». IT-UFA", route: "routePif", page: "page2" },
+  { title: "«Пифагор». IT-UFA", route: "routePif", page: "page2", distance: 14.3, participants: 15 },
   { title: "«Авиценна». Биолого-медицинская экскурсия", route: null },
-  { title: "Шень Ко: мир научно-технических разработок", route: "routeShenko", page: "page2_shenko" },
+  { title: "Шень Ко: мир научно-технических разработок", route: "routeShenko", page: "page2_shenko", distance: 8.7, participants: 25 },
   { title: "«Дмитрий Менделеев». Уфа – химическая столица России: от атомов к материалам будущего»", route: null }
 ]);
 
+
 const filteredRoutes = computed(() => {
-  return routes.value.filter(route =>
-    route.title.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
+  return routes.value.filter(route => {
+    return (
+      route.title.toLowerCase().includes(searchQuery.value.toLowerCase()) &&
+      (filterDistance.value === null || (route.distance !== undefined && route.distance <= filterDistance.value)) &&
+      (filterParticipants.value === null || (route.participants !== undefined && route.participants <= filterParticipants.value))
+    );
+  });
 });
+
+
+// Функция для применения фильтров
+const applyFilters = (filters) => {
+  filterDistance.value = filters.minDistance;
+  filterParticipants.value = filters.maxParticipants;
+  localStorage.setItem('filters', JSON.stringify({
+    filterDistance: filters.minDistance,
+    filterParticipants: filters.maxParticipants
+  }));
+  showFilterPopup.value = false;
+};
+
+// Функция для сброса фильтров
+const resetFilters = () => {
+  searchQuery.value = ''; // Очистить строку поиска
+  filterDistance.value = null; // Сбросить фильтр по расстоянию
+  filterParticipants.value = null; // Сбросить фильтр по количеству участников
+  localStorage.removeItem('filters'); // Удалить сохраненные фильтры из localStorage
+  localStorage.removeItem('searchQuery'); // Удалить строку поиска из localStorage
+};
 </script>
 
 <template>
+  
   <span class="text-white text-3xl text-center">Научно-образовательные маршруты по Уфе</span>
   
   <!-- Поле поиска -->
-  <search v-model="searchQuery" placeholderText="найти маршрут" :showFilter="true" />
+  <search v-model="searchQuery" placeholderText="найти маршрут" :showFilter="true" @click-filter="showFilterPopup = true" />
 
   <!-- Фильтрованный список маршрутов -->
   <div class="space-y-3" style="width: 420px">
@@ -76,4 +125,13 @@ const filteredRoutes = computed(() => {
       }"
     />
   </div>
+
+  <button @click="resetFilters" class="bg-red-500 text-white px-4 py-2 mt-4 rounded">Сбросить фильтры</button>
+
+  <filterPop 
+    v-if="showFilterPopup" 
+    @apply="applyFilters" 
+    @close="showFilterPopup = false"
+  />
+
 </template>
