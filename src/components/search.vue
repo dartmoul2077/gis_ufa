@@ -6,6 +6,10 @@
       default: "найти объект", // Значение по умолчанию
     },
     modelValue: String, // Добавляем поддержку v-model
+    showFilter: {
+      type: Boolean,
+      default: false, // По умолчанию фильтр скрыт
+    },
   });
 
   defineEmits(["update:modelValue"]); // Эмитим изменения
@@ -20,8 +24,16 @@
       :placeholder="placeholderText" 
       class="w-full p-3 rounded-lg bg-indigo-900 text-white placeholder-gray-400"
     >
-    <button class="absolute top-1/2 right-4 transform -translate-y-1/2 text-white">
+    <button 
+      class="absolute top-1/2 transform -translate-y-1/2 text-white"
+      :class="showFilter ? 'right-8' : 'right-1'"
+    >
       <img src="/Group.svg" alt="lupa">
+    </button>
+    
+    <!-- Фильтр отображается только если showFilter = true -->
+    <button v-if="showFilter" class="absolute top-1/2 right-1 transform -translate-y-1/2 text-white">
+      <img src="/filter.svg" alt="filter">
     </button>
   </div>
 </template>

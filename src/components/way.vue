@@ -58,7 +58,7 @@ const filteredRoutes = computed(() => {
   <span class="text-white text-3xl text-center">Научно-образовательные маршруты по Уфе</span>
   
   <!-- Поле поиска -->
-  <search v-model="searchQuery" placeholderText="найти маршрут" />
+  <search v-model="searchQuery" placeholderText="найти маршрут" :showFilter="true" />
 
   <!-- Фильтрованный список маршрутов -->
   <div class="space-y-3" style="width: 420px">
