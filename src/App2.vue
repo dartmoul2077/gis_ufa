@@ -13,8 +13,10 @@ import register from './views/register.vue';
 import signIn from './views/signIn.vue';
 import routeShenko from './components/routeShenko.vue';
 import routeSokrat from './components/routeSokrat.vue';
+import routeTsiolkovsky from './components/routeTsiolkovsky.vue';
 import page2_shenko from './components/page2_shenko.vue';
 import page2_sokrat from './components/page2_sokrat.vue';
+import page2_tsiolkovsky from './components/page2_tsiolkovsky.vue';
 import ufarob from './components/ufarob.vue';
 import nots from './components/nots.vue';
 import poligon from './components/poligon.vue';
@@ -67,12 +69,14 @@ const hadleSignOut = () => {
                 currentRoute = route;
                 if (route === 'routeShenko') currentPage = 'page2_shenko';
                 else if (route === 'routeSokrat') currentPage = 'page2_sokrat';
+                else if (route === 'routeTsiolkovsky') currentPage = 'page2_tsiolkovsky';
                 else if (route === 'routeAll') currentPage = 'page2';
             }" />
 
             <page2 v-if="currentPage === 'page2'" @navigateBack="currentPage = 'way'" />
             <page2_shenko v-if="currentPage === 'page2_shenko'" @navigateBack="currentPage = 'way'" />
             <page2_sokrat v-if="currentPage === 'page2_sokrat'" @navigateBack="currentPage = 'way'"/>
+            <page2_tsiolkovsky v-if="currentPage === 'page2_tsiolkovsky'" @navigateBack="currentPage = 'way'"/>
             <page3 v-if="currentPage === 'page3'" @navigateBack="currentPage = 'page2'"/>
 
             <register v-if="currentPage === 'register'" />
@@ -101,6 +105,7 @@ const hadleSignOut = () => {
             
             <routeShenko v-else-if="currentRoute === 'routeShenko'" />
             <routeSokrat v-else-if="currentRoute === 'routeSokrat'"/>
+            <routeTsiolkovsky v-else-if="currentRoute === 'routeTsiolkovsky'"/>
         </div>
 
     </div>
