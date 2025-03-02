@@ -15,10 +15,12 @@ import routeShenko from './components/routeShenko.vue';
 import routeSokrat from './components/routeSokrat.vue';
 import routeTsiolkovsky from './components/routeTsiolkovsky.vue';
 import routeVernadsky from './components/routeVernadsky.vue';
+import routeMendeleev from './components/routeMendeleev.vue';
 import page2_shenko from './components/page2_shenko.vue';
 import page2_sokrat from './components/page2_sokrat.vue';
 import page2_tsiolkovsky from './components/page2_tsiolkovsky.vue';
 import page2_vernadsky from './components/page2_vernadsky.vue';
+import page2_mendeleev from './components/page2_mendeleev.vue';
 import ufarob from './components/ufarob.vue';
 import nots from './components/nots.vue';
 import poligon from './components/poligon.vue';
@@ -73,6 +75,7 @@ const hadleSignOut = () => {
                 else if (route === 'routeSokrat') currentPage = 'page2_sokrat';
                 else if (route === 'routeTsiolkovsky') currentPage = 'page2_tsiolkovsky';
                 else if (route === 'routeVernadsky') currentPage = 'page2_vernadsky';
+                else if (route === 'routeMendeleev') currentPage = 'page2_mendeleev';
                 else if (route === 'routeAll') currentPage = 'page2';
             }" />
 
@@ -81,6 +84,7 @@ const hadleSignOut = () => {
             <page2_sokrat v-if="currentPage === 'page2_sokrat'" @navigateBack="currentPage = 'way'"/>
             <page2_tsiolkovsky v-if="currentPage === 'page2_tsiolkovsky'" @navigateBack="currentPage = 'way'"/>
             <page2_vernadsky v-if="currentPage === 'page2_vernadsky'" @navigateBack="currentPage = 'way'"/>
+            <page2_mendeleev v-if="currentPage === 'page2_mendeleev'" @navigateBack="currentPage = 'way'"/>
             <page3 v-if="currentPage === 'page3'" @navigateBack="currentPage = 'page2'"/>
 
             <register v-if="currentPage === 'register'" />
@@ -111,6 +115,7 @@ const hadleSignOut = () => {
             <routeSokrat v-else-if="currentRoute === 'routeSokrat'"/>
             <routeTsiolkovsky v-else-if="currentRoute === 'routeTsiolkovsky'"/>
             <routeVernadsky v-else-if="currentRoute === 'routeVernadsky'"/>
+            <routeMendeleev v-else-if="currentRoute === 'routeMendeleev'"/>
         </div>
 
     </div>

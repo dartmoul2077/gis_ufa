@@ -18,7 +18,7 @@ import Timeline_tsiolkovsky from './Timeline_tsiolkovsky.vue';
 
 
 <template>
-    <span class=" text-white text-3xl text-center" >Уфа физико-математическая: "Циолковский". Уфа сквозь призму математики и физики</span>
+    <span class=" text-white text-3xl text-center" >Константин Циолковский</span>
     <search placeholderText="найти объект" /> 
 
     <div class="w-full">
@@ -115,7 +115,7 @@ import Timeline_tsiolkovsky from './Timeline_tsiolkovsky.vue';
         <!-- Контент вкладки "объекты маршрута" -->
         <div v-if="activeTab === 'objects'" class="text-white px-3 space-y-5">
           <span class="text-l">
-            Объекты маршрута Уфа физико-математическая: "Циолковский".
+            Объекты маршрута «Константин Циолковский».
           </span>
 
           <Timeline_tsiolkovsky />

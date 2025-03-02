@@ -112,7 +112,7 @@ import Timeline_shenko from './Timeline_shenko.vue';
         <!-- Контент вкладки "объекты маршрута" -->
         <div v-if="activeTab === 'objects'" class="text-white px-3 space-y-5">
           <span class="text-l">
-            Объекты маршрута Шень Ко: мир научно-технических разработок
+            Объекты маршрута «Шень Ко».
           </span>
 
           <Timeline_shenko />

@@ -1,6 +1,7 @@
 <script>
 import Search from './search.vue';
-import Timeline_sokrat from './Timeline_sokrat.vue';
+import Timeline_mendeleev from './Timeline_mendeleev.vue';
+
 
 
   export default {
@@ -10,7 +11,7 @@ import Timeline_sokrat from './Timeline_sokrat.vue';
       };
     },
     components: {
-      Timeline_sokrat,
+      Timeline_mendeleev,
       Search
     },
   };
@@ -18,7 +19,7 @@ import Timeline_sokrat from './Timeline_sokrat.vue';
 
 
 <template>
-    <span class=" text-white text-3xl text-center" >Сократ</span>
+    <span class=" text-white text-3xl text-center" >Дмитрий Менделеев</span>
     <search placeholderText="найти объект" /> 
 
     <div class="w-full">
@@ -46,8 +47,9 @@ import Timeline_sokrat from './Timeline_sokrat.vue';
         <!-- Контент вкладки "о маршруте" -->
         <div v-if="activeTab === 'about'" class="text-white text-sm px-3 space-y-5">
             <span class="">
-                Увлекательное путешествие в мир гуманитарных наук! Участников экскурсии ждут настольные варгеймы и разработанные нашими 
-                учеными виртуальные игры, раскопки артефактов в археологической песочнице и увлекательные викторины.
+                Научно-популярный маршрут предлагает уникальную возможность познакомиться с открытиями в области синтеза новых лекарств и катализаторов 
+                для получения Арктического топлива. Вы совершите невероятное путешествие из системы атомов и молекул с увеличением в сотни тысяч раз на 
+                электронном микроскопе в мир промышленных катализаторов для нефтехимических заводов Башкортостана.
             </span>
 
             <div class="h-80  rounded-xl px-3" style="background-color: rgb(64,84,148);">
@@ -58,7 +60,7 @@ import Timeline_sokrat from './Timeline_sokrat.vue';
                     </b>
 
                     <span>
-                        15-17 лет
+                        12-18 лет
                     </span>
                 </div>
 
@@ -91,7 +93,7 @@ import Timeline_sokrat from './Timeline_sokrat.vue';
                     </b>
 
                     <span>
-                        8,5 км
+                        14 км
                     </span>
                 </div>
 
@@ -114,10 +116,10 @@ import Timeline_sokrat from './Timeline_sokrat.vue';
         <!-- Контент вкладки "объекты маршрута" -->
         <div v-if="activeTab === 'objects'" class="text-white px-3 space-y-5">
           <span class="text-l">
-            Объекты маршрута «Сократ».
+            Объекты маршрута «Дмитрий Менделеев».
           </span>
 
-          <Timeline_sokrat />
+          <Timeline_mendeleev />
 
         </div>
       </div>

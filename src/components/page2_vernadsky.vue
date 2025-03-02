@@ -18,7 +18,7 @@ import Timeline_vernadsky from './Timeline_vernadsky.vue';
 
 
 <template>
-    <span class=" text-white text-3xl text-center" >Маршрут Вернадский</span>
+    <span class=" text-white text-3xl text-center" >Владимир Вернадский</span>
     <search placeholderText="найти объект" /> 
 
     <div class="w-full">
@@ -115,7 +115,7 @@ import Timeline_vernadsky from './Timeline_vernadsky.vue';
         <!-- Контент вкладки "объекты маршрута" -->
         <div v-if="activeTab === 'objects'" class="text-white px-3 space-y-5">
           <span class="text-l">
-            Объекты маршрута Вернадский.
+            Объекты маршрута «Вернадский».
           </span>
 
           <Timeline_vernadsky />
