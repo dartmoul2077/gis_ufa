@@ -1,13 +1,13 @@
 <template>
     <div>
-      <div id="map-tsiolkovsky" class="map" tabindex="0">
+      <div id="map-vernadsky" class="map" tabindex="0">
       </div>
       
     </div>
   </template>
   
   <script>
-  console.log("routeTsiolkovsky.vue загружен!");
+  console.log("routeVernadsky.vue загружен!");
     import { onMounted } from 'vue';
     import Map from 'ol/Map';
     import OSM from 'ol/source/OSM';
@@ -30,7 +30,7 @@
       setup(_, { emit }) {
         onMounted(() => {
           const map = new Map({
-            target: 'map-tsiolkovsky',
+            target: 'map-vernadsky',
             layers: [
               new TileLayer({
                 source: new OSM(),
@@ -44,7 +44,7 @@
   
           // === Слой маршрута ===
           const routeSource = new VectorSource();
-          fetch('/tsiolkovsky.geojson')
+          fetch('/vernadsky.geojson')
             .then((response) => response.json())
             .then((data) => {
               const geojsonFormat = new GeoJSON();
@@ -54,7 +54,7 @@
   
               const routeStyle = new Style({
                 stroke: new Stroke({
-                  color: 'rgba(255,107,0,255)', // Полупрозрачный маршрут
+                  color: 'rgba(150,105,200,255)', // Полупрозрачный маршрут
                   width: 4,
                 }),
               });
@@ -73,19 +73,16 @@
           // === Слой точек ===
           const pointSource = new VectorSource();
           const coordinates = [
-            [55.936081, 54.720401], 
-            [55.947889, 54.726752],
-            [55.990613, 54.696529],
-            [56.031938, 54.779658],
-            [56.023481, 54.774103],
-            [56.015727, 54.767287]
+            [55.937071, 54.718473], 
+            [55.93341, 54.720888],
+            [55.936081, 54.720401],
           ];
   
           const pointStyle = new Style({
             image: new Circle({
               radius: 7,
               fill: new Fill({
-                color: 'rgba(255,107,0,255)',
+                color: 'rgba(150,105,200,255)',
               }),
               stroke: new Stroke({
                 color: 'black',
