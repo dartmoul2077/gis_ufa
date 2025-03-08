@@ -26,25 +26,21 @@ const emit = defineEmits(['toggle-favorite']);
 </script>
 
 <template>
-  <button 
-    class="w-full py-2 border-2 border-green-500 text-green-500 rounded-md hover:bg-green-500 hover:text-white transition" 
-    @click="$emit('click')"
-  >
-    {{ title }}
-    <img 
-      :src="isFavorite ? '/heart_fill.svg' : '/heart_empty.svg'" 
-      @click.stop="$emit('toggle-favorite')" 
-      class="w-6 h-6 ml-2 cursor-pointer"
-    />
-  </button>
+    <button 
+      class="relative w-full py-2 pr-8 border-2 border-green-500 text-green-500 rounded-md hover:bg-green-500 hover:text-white transition overflow-visible" 
+      @click="$emit('click')"
+    >
+      {{ title }}
+      <img 
+        :src="isFavorite ? 'heart_fill.svg' : 'heart_empty.svg'" 
+        @click.stop="$emit('toggle-favorite')" 
+        class="w-5 h-5 absolute top-1 right-1 cursor-pointer"
+      />
+    </button>
 </template>
+  
 
-<style>
-/* Добавьте стили для кнопки сердца */
-button img {
-  vertical-align: middle;
-}
-</style>
+
 
 
 
