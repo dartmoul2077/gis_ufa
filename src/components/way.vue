@@ -60,13 +60,13 @@ onMounted(() => {
 });
 
 const routes = ref([
-  { title: "«Сократ»: научно-популярный маршрут гуманитарной направленности", route: "routeSokrat", page: 'page2_sokrat', distance: 8.5, participants: 15},
-  { title: "Уфа физико-математическая: «Циолковский». Уфа сквозь призму математики и физики", route: "routeTsiolkovsky", page: "page2_tsiolkovsky", distance: 22, participants: 15},
-  { title: "«Уфа естественно-научная: от зарождения жизни на Земле к ноосфере В.И. Вернадского»", route: "routeVernadsky", page: "page2_vernadsky", distance: 1, participants: 15},
-  { title: "«Пифагор». IT-UFA", route: "routePif", page: "page2", distance: 14.3, participants: 15 },
-  { title: "«Авиценна». Биолого-медицинская экскурсия", route: null },
-  { title: "Шень Ко: мир научно-технических разработок", route: "routeShenko", page: "page2_shenko", distance: 8.7, participants: 25 },
-  { title: "«Дмитрий Менделеев». Уфа – химическая столица России: от атомов к материалам будущего»", route: "routeMendeleev", page: "page2_mendeleev", distance: 14, participants: 15 }
+  { title: "«Сократ»: научно-популярный маршрут гуманитарной направленности", route: "routeSokrat", page: 'page2_sokrat', distance: 8.5, participants: 15, isFavorite: false},
+  { title: "Уфа физико-математическая: «Циолковский». Уфа сквозь призму математики и физики", route: "routeTsiolkovsky", page: "page2_tsiolkovsky", distance: 22, participants: 15, isFavorite: false},
+  { title: "«Уфа естественно-научная: от зарождения жизни на Земле к ноосфере В.И. Вернадского»", route: "routeVernadsky", page: "page2_vernadsky", distance: 1, participants: 15, isFavorite: false},
+  { title: "«Пифагор». IT-UFA", route: "routePif", page: "page2", distance: 14.3, participants: 15, isFavorite: false },
+  { title: "«Авиценна». Биолого-медицинская экскурсия", route: null, isFavorite: false },
+  { title: "Шень Ко: мир научно-технических разработок", route: "routeShenko", page: "page2_shenko", distance: 8.7, participants: 25, isFavorite: false },
+  { title: "«Дмитрий Менделеев». Уфа – химическая столица России: от атомов к материалам будущего»", route: "routeMendeleev", page: "page2_mendeleev", distance: 14, participants: 15, isFavorite: false }
 ]);
 
 
@@ -100,6 +100,25 @@ const resetFilters = () => {
   localStorage.removeItem('filters'); // Удалить сохраненные фильтры из localStorage
   localStorage.removeItem('searchQuery'); // Удалить строку поиска из localStorage
 };
+
+// Функция переключения избранного
+const toggleFavorite = (route) => {
+  route.isFavorite = !route.isFavorite;
+  // Сохраняем в localStorage
+  const favorites = routes.value
+    .filter(r => r.isFavorite)
+    .map(r => r.title);
+  localStorage.setItem('favorites', JSON.stringify(favorites));
+};
+
+// Загрузка избранных при монтировании
+onMounted(() => {
+  const saved = JSON.parse(localStorage.getItem('favorites') || '[]');
+  routes.value.forEach(route => {
+    route.isFavorite = saved.includes(route.title);
+  });
+});
+
 </script>
 
 <template>
@@ -115,6 +134,8 @@ const resetFilters = () => {
       v-for="route in filteredRoutes" 
       :key="route.title" 
       :title="route.title" 
+      :is-favorite="route.isFavorite" 
+      @toggle-favorite="toggleFavorite(route)" 
       @click="() => {
         console.log('Нажали маршрут:', route.title);
         console.log('Переключаем на страницу:', route.page);

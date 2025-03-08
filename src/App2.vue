@@ -2,9 +2,7 @@
 import Header2 from './components/Header2.vue';
 import way from './components/way.vue';
 import page2 from './components/page2.vue';
-// import { RouterView } from 'vue-router';
 import page3 from './components/page3.vue';
-// import { ref } from 'vue';
 import routeAll from './components/routeAll.vue';
 import routePif from './components/routePif.vue';
 import popup from './components/popup.vue';
@@ -28,6 +26,7 @@ import rosstel_muz from './components/rosstel_muz.vue';
 import rosstel from './components/rosstel.vue';
 import tech_park from './components/tech_park.vue';
 import uust from './components/uust.vue';
+import favoritesPage from './components/favoritesPage.vue';
 
 import { onMounted, ref } from 'vue';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
@@ -61,7 +60,8 @@ const hadleSignOut = () => {
 
 <template>
     <Header2 :isLoggedIn="isLoggedIn" 
-    @navigateToWay="currentPage = 'way'; currentRoute = 'routeAll'" 
+    @navigateToWay="currentPage = 'way'; currentRoute = 'routeAll'"
+    @navigateToFavorites="currentPage = 'favorites'" 
     @navigateToRegister="currentPage = 'register'" 
     @navigateToLogin="currentPage = 'signIn'" 
     @logout="hadleSignOut"/>
@@ -78,6 +78,8 @@ const hadleSignOut = () => {
                 else if (route === 'routeMendeleev') currentPage = 'page2_mendeleev';
                 else if (route === 'routeAll') currentPage = 'page2';
             }" />
+
+            <favoritesPage v-if="currentPage === 'favorites'" />
 
             <page2 v-if="currentPage === 'page2'" @navigateBack="currentPage = 'way'" />
             <page2_shenko v-if="currentPage === 'page2_shenko'" @navigateBack="currentPage = 'way'" />
