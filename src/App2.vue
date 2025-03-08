@@ -55,6 +55,8 @@ const hadleSignOut = () => {
 
     });}
 
+// Добавляем ref для доступа к маршрутом way.vue
+const wayRef = ref(null);
 
 </script>
 
@@ -69,7 +71,7 @@ const hadleSignOut = () => {
     <div class="flex min-h-screen"> <!--недавно-->
         <div class="bg-indigo-800 min-h-screen w-[500px] flex flex-col items-center space-y-12">
             <!-- <way v-if="currentPage === 'way'" @navigate="currentPage = 'page2' " /> -->
-            <way v-if="currentPage === 'way'" @navigate="currentPage = 'page2'" @selectRoute="(route) => {
+            <way v-if="currentPage === 'way'" ref="wayRef" @navigate="currentPage = 'page2'" @selectRoute="(route) => {
                 currentRoute = route;
                 if (route === 'routeShenko') currentPage = 'page2_shenko';
                 else if (route === 'routeSokrat') currentPage = 'page2_sokrat';
@@ -79,7 +81,7 @@ const hadleSignOut = () => {
                 else if (route === 'routeAll') currentPage = 'page2';
             }" />
 
-            <favoritesPage v-if="currentPage === 'favorites'" />
+            <!-- <favoritesPage v-if="currentPage === 'favorites'" /> -->
 
             <page2 v-if="currentPage === 'page2'" @navigateBack="currentPage = 'way'" />
             <page2_shenko v-if="currentPage === 'page2_shenko'" @navigateBack="currentPage = 'way'" />
@@ -98,6 +100,9 @@ const hadleSignOut = () => {
             <rosstel v-if="currentPage === 'rosstel'" @navigateBack="currentPage = 'page2'" />
             <tech_park v-if="currentPage === 'tech_park'" @navigateBack="currentPage = 'page2'"/>
             <uust v-if="currentPage === 'uust'" @navigateBack="currentPage = 'page2'"/>
+            <favoritesPage 
+                v-if="currentPage === 'favorites'" 
+                :routes="wayRef?.routes" />
             
         </div>
 

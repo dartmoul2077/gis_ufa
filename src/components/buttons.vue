@@ -31,11 +31,10 @@ const emit = defineEmits(['toggle-favorite']);
     @click="$emit('click')"
   >
     {{ title }}
-    <!-- Добавьте кнопку сердца -->
     <img 
       :src="isFavorite ? '/heart_fill.svg' : '/heart_empty.svg'" 
-      @click.stop="emit('toggle-favorite')"
-      class="w-6 h-6 ml-2 inline-block cursor-pointer"
+      @click.stop="$emit('toggle-favorite')" 
+      class="w-6 h-6 ml-2 cursor-pointer"
     />
   </button>
 </template>
