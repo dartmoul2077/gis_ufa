@@ -32,7 +32,7 @@ const emit = defineEmits(['toggle-favorite']);
     >
       {{ title }}
       <img 
-        :src="isFavorite ? 'heart_fill.svg' : 'heart_empty.svg'" 
+        :src="isFavorite ? 'heart_fill_red.svg' : 'heart_empty.svg'" 
         @click.stop="$emit('toggle-favorite')" 
         class="w-5 h-5 absolute top-1 right-1 cursor-pointer"
       />

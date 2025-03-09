@@ -23,8 +23,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="p-4 bg-indigo-800 text-white">
-    <h2 class="text-2xl mb-4">Избранные маршруты</h2>
+  <div class="p-4 bg-indigo-800 text-white text-center">
+    <h2 class="text-2xl mb-4 ">Избранные маршруты</h2>
     <div v-if="favorites.length === 0">Нет избранных маршрутов</div>
     <div v-else>
       <div v-for="route in favorites" :key="route.title" class="py-2 border-b border-gray-600">
