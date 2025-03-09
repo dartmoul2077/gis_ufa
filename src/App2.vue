@@ -27,9 +27,23 @@ import rosstel from './components/rosstel.vue';
 import tech_park from './components/tech_park.vue';
 import uust from './components/uust.vue';
 import favoritesPage from './components/favoritesPage.vue';
-
 import { onMounted, ref } from 'vue';
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDnXXJ1R-lkoheA8LEJuHLzy2kjUvcC4-w",
+  authDomain: "myproject-35bc3.firebaseapp.com",
+  projectId: "myproject-35bc3",
+  storageBucket: "myproject-35bc3.firebasestorage.app",
+  messagingSenderId: "1064017138140",
+  appId: "1:1064017138140:web:b294ccd4f2b9c9762abf19"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
 
 
 const currentPage = ref('way');
@@ -37,23 +51,21 @@ const currentRoute = ref('routeAll'); // Текущий компонент ка�
 
 const isLoggedIn = ref(false)
 
-let auth;
-onMounted (() => {
-    auth = getAuth();
+onMounted(() => {
     onAuthStateChanged(auth, (user) => {
         if (user) {
             isLoggedIn.value = true;
-        }
-        else {
-            isLoggedIn.value = false
+        } else {
+            isLoggedIn.value = false;
         }
     });
 });
 
-const hadleSignOut = () => {
+const handleSignOut = () => {
     signOut(auth).then(() => {
-
-    });}
+        // Дополнительные действия после выхода
+    });
+};
 
 // Добавляем ref для доступа к маршрутом way.vue
 const wayRef = ref(null);
@@ -66,7 +78,7 @@ const wayRef = ref(null);
     @navigateToFavorites="currentPage = 'favorites'" 
     @navigateToRegister="currentPage = 'register'" 
     @navigateToLogin="currentPage = 'signIn'" 
-    @logout="hadleSignOut"/>
+    @logout="handleSignOut"/>
 
     <div class="flex min-h-screen"> <!--недавно-->
         <div class="bg-indigo-800 min-h-screen w-[500px] flex flex-col items-center space-y-12">

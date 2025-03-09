@@ -3,6 +3,24 @@ import { ref, computed, onMounted } from 'vue';
 import search from './search.vue';
 import buttons from './buttons.vue';
 import filterPop from './filterPop.vue';
+import { doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDnXXJ1R-lkoheA8LEJuHLzy2kjUvcC4-w",
+  authDomain: "myproject-35bc3.firebaseapp.com",
+  projectId: "myproject-35bc3",
+  storageBucket: "myproject-35bc3.firebasestorage.app",
+  messagingSenderId: "1064017138140",
+  appId: "1:1064017138140:web:b294ccd4f2b9c9762abf19"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
 
 const searchQuery = ref('');
 // Показывать ли окно фильтра
@@ -14,18 +32,18 @@ const filterParticipants = ref(null);
 
 
 // Загружаем фильтры из localStorage при монтировании компонента
-onMounted(() => {
-  const savedFilters = JSON.parse(localStorage.getItem('filters'));
-  if (savedFilters) {
-    filterDistance.value = savedFilters.filterDistance;
-    filterParticipants.value = savedFilters.filterParticipants;
-  }
+// onMounted(() => {
+//   const savedFilters = JSON.parse(localStorage.getItem('filters'));
+//   if (savedFilters) {
+//     filterDistance.value = savedFilters.filterDistance;
+//     filterParticipants.value = savedFilters.filterParticipants;
+//   }
 
-  const savedSearchQuery = localStorage.getItem('searchQuery');
-  if (savedSearchQuery) {
-    searchQuery.value = savedSearchQuery;
-  }
-});
+//   const savedSearchQuery = localStorage.getItem('searchQuery');
+//   if (savedSearchQuery) {
+//     searchQuery.value = savedSearchQuery;
+//   }
+// });
 
 const routes = ref([
   { title: "«Сократ»: научно-популярный маршрут гуманитарной направленности", route: "routeSokrat", page: 'page2_sokrat', distance: 8.5, participants: 15, isFavorite: false},
@@ -81,19 +99,79 @@ const resetFilters = () => {
 
 
 // Загрузка избранных при монтировании
-onMounted(() => {
-  const savedTitles = JSON.parse(localStorage.getItem('favorites') || '[]');
-  routes.value.forEach(route => {
-    route.isFavorite = savedTitles.includes(route.title);
-  });
-});
+// onMounted(() => {
+//   const savedTitles = JSON.parse(localStorage.getItem('favorites') || '[]');
+//   routes.value.forEach(route => {
+//     route.isFavorite = savedTitles.includes(route.title);
+//   });
+// });
 
-const toggleFavorite = (route) => {
+const toggleFavorite = async (route) => {
+  const user = auth.currentUser;
+
+  if (user) {
+    const userDocRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userDocRef);
+
+    if (userDoc.exists()) {
+      const favorites = userDoc.data().favorites || [];
+      if (favorites.includes(route.title)) {
+        await updateDoc(userDocRef, {
+          favorites: arrayRemove(route.title)
+        });
+      } else {
+        await updateDoc(userDocRef, {
+          favorites: arrayUnion(route.title)
+        });
+      }
+    } else {
+      await setDoc(userDocRef, {
+        favorites: [route.title]
+      });
+    }
+  } else {
+    // Если пользователь не авторизован, используем localStorage
+    const savedTitles = JSON.parse(localStorage.getItem('favorites') || '[]');
+    if (savedTitles.includes(route.title)) {
+      const newFavorites = savedTitles.filter(title => title !== route.title);
+      localStorage.setItem('favorites', JSON.stringify(newFavorites));
+    } else {
+      localStorage.setItem('favorites', JSON.stringify([...savedTitles, route.title]));
+    }
+  }
+
   route.isFavorite = !route.isFavorite;
-  localStorage.setItem('favorites', JSON.stringify(
-    routes.value.filter(r => r.isFavorite).map(r => r.title)
-  ));
 };
+
+onMounted(async () => {
+  const savedFilters = JSON.parse(localStorage.getItem('filters'));
+  if (savedFilters) {
+    filterDistance.value = savedFilters.filterDistance;
+    filterParticipants.value = savedFilters.filterParticipants;
+  }
+  const savedSearchQuery = localStorage.getItem('searchQuery');
+  if (savedSearchQuery) {
+    searchQuery.value = savedSearchQuery;
+  }
+
+  const user = auth.currentUser;
+  if (user) {
+    const userDocRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userDocRef);
+
+    if (userDoc.exists()) {
+      const savedTitles = userDoc.data().favorites || [];
+      routes.value.forEach(route => {
+        route.isFavorite = savedTitles.includes(route.title);
+      });
+    }
+  } else {
+    const savedTitles = JSON.parse(localStorage.getItem('favorites') || '[]');
+    routes.value.forEach(route => {
+      route.isFavorite = savedTitles.includes(route.title);
+    });
+  }
+});
 
 // Экспонируем routes для доступа из родительского компонента
 defineExpose({

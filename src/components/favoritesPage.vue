@@ -1,5 +1,23 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { doc, getDoc } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDnXXJ1R-lkoheA8LEJuHLzy2kjUvcC4-w",
+  authDomain: "myproject-35bc3.firebaseapp.com",
+  projectId: "myproject-35bc3",
+  storageBucket: "myproject-35bc3.firebasestorage.app",
+  messagingSenderId: "1064017138140",
+  appId: "1:1064017138140:web:b294ccd4f2b9c9762abf19"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
 
 // Полный список маршрутов (нужно, чтобы восстановить избранные маршруты)
 const allRoutes = [
@@ -14,11 +32,22 @@ const allRoutes = [
 
 const favorites = ref([]);
 
-onMounted(() => {
-  const savedTitles = JSON.parse(localStorage.getItem('favorites') || '[]');
+onMounted(async () => {
+  const user = auth.currentUser;
+  if (user) {
+    const userDocRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userDocRef);
 
-  // Восстанавливаем полные объекты маршрутов по их названиям
-  favorites.value = allRoutes.filter(route => savedTitles.includes(route.title));
+    if (userDoc.exists()) {
+      const savedTitles = userDoc.data().favorites || [];
+      favorites.value = allRoutes.filter(route => savedTitles.includes(route.title));
+    } else {
+      favorites.value = [];
+    }
+  } else {
+    const savedTitles = JSON.parse(localStorage.getItem('favorites') || '[]');
+    favorites.value = allRoutes.filter(route => savedTitles.includes(route.title));
+  }
 });
 </script>
 
