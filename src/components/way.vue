@@ -70,14 +70,15 @@ const resetFilters = () => {
 };
 
 // Убедитесь, что функция toggleFavorite вызывается правильно
-const toggleFavorite = (route) => {
-  route.isFavorite = !route.isFavorite;
-  // Сохраняем только названия избранных маршрутов
-  const favoritesTitles = routes.value
-    .filter(r => r.isFavorite)
-    .map(r => r.title);
-  localStorage.setItem('favorites', JSON.stringify(favoritesTitles));
-};
+// const toggleFavorite = (route) => {
+//   route.isFavorite = !route.isFavorite;
+//   // Сохраняем только названия избранных маршрутов
+//   const favoritesTitles = routes.value
+//     .filter(r => r.isFavorite)
+//     .map(r => r.title);
+//   localStorage.setItem('favorites', JSON.stringify(favoritesTitles));
+// };
+
 
 // Загрузка избранных при монтировании
 onMounted(() => {
@@ -86,6 +87,13 @@ onMounted(() => {
     route.isFavorite = savedTitles.includes(route.title);
   });
 });
+
+const toggleFavorite = (route) => {
+  route.isFavorite = !route.isFavorite;
+  localStorage.setItem('favorites', JSON.stringify(
+    routes.value.filter(r => r.isFavorite).map(r => r.title)
+  ));
+};
 
 // Экспонируем routes для доступа из родительского компонента
 defineExpose({
