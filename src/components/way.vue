@@ -4,7 +4,7 @@ import search from './search.vue';
 import buttons from './buttons.vue';
 import filterPop from './filterPop.vue';
 import { doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
@@ -106,59 +106,12 @@ const resetFilters = () => {
 //   });
 // });
 
-const toggleFavorite = async (route) => {
-  const user = auth.currentUser;
-
-  if (user) {
-    const userDocRef = doc(db, "users", user.uid);
-    const userDoc = await getDoc(userDocRef);
-
-    if (userDoc.exists()) {
-      const favorites = userDoc.data().favorites || [];
-      if (favorites.includes(route.title)) {
-        await updateDoc(userDocRef, {
-          favorites: arrayRemove(route.title)
-        });
-      } else {
-        await updateDoc(userDocRef, {
-          favorites: arrayUnion(route.title)
-        });
-      }
-    } else {
-      await setDoc(userDocRef, {
-        favorites: [route.title]
-      });
-    }
-  } else {
-    // Если пользователь не авторизован, используем localStorage
-    const savedTitles = JSON.parse(localStorage.getItem('favorites') || '[]');
-    if (savedTitles.includes(route.title)) {
-      const newFavorites = savedTitles.filter(title => title !== route.title);
-      localStorage.setItem('favorites', JSON.stringify(newFavorites));
-    } else {
-      localStorage.setItem('favorites', JSON.stringify([...savedTitles, route.title]));
-    }
-  }
-
-  route.isFavorite = !route.isFavorite;
-};
-
-onMounted(async () => {
-  const savedFilters = JSON.parse(localStorage.getItem('filters'));
-  if (savedFilters) {
-    filterDistance.value = savedFilters.filterDistance;
-    filterParticipants.value = savedFilters.filterParticipants;
-  }
-  const savedSearchQuery = localStorage.getItem('searchQuery');
-  if (savedSearchQuery) {
-    searchQuery.value = savedSearchQuery;
-  }
-
+// Функция загрузки избранных маршрутов
+const loadFavorites = async () => {
   const user = auth.currentUser;
   if (user) {
     const userDocRef = doc(db, "users", user.uid);
     const userDoc = await getDoc(userDocRef);
-
     if (userDoc.exists()) {
       const savedTitles = userDoc.data().favorites || [];
       routes.value.forEach(route => {
@@ -171,6 +124,62 @@ onMounted(async () => {
       route.isFavorite = savedTitles.includes(route.title);
     });
   }
+};
+
+// Функция переключения избранного маршрута
+const toggleFavorite = async (route) => {
+  route.isFavorite = !route.isFavorite;
+  const user = auth.currentUser;
+
+  if (user) {
+    const userDocRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userDocRef);
+
+    if (!userDoc.exists()) {
+      // Если документа нет, создаем его
+      await setDoc(userDocRef, { favorites: [] });
+    }
+
+    let favorites = (await getDoc(userDocRef)).data().favorites || [];
+
+    if (route.isFavorite) {
+      favorites.push(route.title);
+    } else {
+      favorites = favorites.filter(title => title !== route.title);
+    }
+
+    await updateDoc(userDocRef, { favorites });
+
+  } else {
+    // Если пользователь не авторизован – сохраняем в localStorage
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    if (route.isFavorite) {
+      favorites.push(route.title);
+    } else {
+      favorites = favorites.filter(title => title !== route.title);
+    }
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }
+};
+
+
+// При монтировании загружаем фильтры, поисковый запрос и избранные маршруты
+onMounted(async () => {
+  const savedFilters = JSON.parse(localStorage.getItem('filters'));
+  if (savedFilters) {
+    filterDistance.value = savedFilters.filterDistance;
+    filterParticipants.value = savedFilters.filterParticipants;
+  }
+  const savedSearchQuery = localStorage.getItem('searchQuery');
+  if (savedSearchQuery) {
+    searchQuery.value = savedSearchQuery;
+  }
+  await loadFavorites();
+});
+
+// Отслеживание изменения авторизации и обновление избранного
+onAuthStateChanged(auth, () => {
+  loadFavorites();
 });
 
 // Экспонируем routes для доступа из родительского компонента
