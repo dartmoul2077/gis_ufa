@@ -29,6 +29,7 @@ const showFilterPopup = ref(false);
 // Значения фильтра
 const filterDistance = ref(null);
 const filterParticipants = ref(null);
+const filterAudience = ref(""); // Новое состояние
 
 
 // Загружаем фильтры из localStorage при монтировании компонента
@@ -46,13 +47,13 @@ const filterParticipants = ref(null);
 // });
 
 const routes = ref([
-  { title: "«Сократ»: научно-популярный маршрут гуманитарной направленности", route: "routeSokrat", page: 'page2_sokrat', distance: 8.5, participants: 15, isFavorite: false},
-  { title: "Уфа физико-математическая: «Циолковский». Уфа сквозь призму математики и физики", route: "routeTsiolkovsky", page: "page2_tsiolkovsky", distance: 22, participants: 15, isFavorite: false},
-  { title: "«Уфа естественно-научная: от зарождения жизни на Земле к ноосфере В.И. Вернадского»", route: "routeVernadsky", page: "page2_vernadsky", distance: 1, participants: 15, isFavorite: false},
-  { title: "«Пифагор». IT-UFA", route: "routePif", page: "page2", distance: 14.3, participants: 15, isFavorite: false },
+  { title: "«Сократ»: научно-популярный маршрут гуманитарной направленности", route: "routeSokrat", page: 'page2_sokrat', distance: 8.5, participants: 15, isFavorite: false, audience: '15-17'},
+  { title: "Уфа физико-математическая: «Циолковский». Уфа сквозь призму математики и физики", route: "routeTsiolkovsky", page: "page2_tsiolkovsky", distance: 22, participants: 15, isFavorite: false, audience: '12-18'},
+  { title: "«Уфа естественно-научная: от зарождения жизни на Земле к ноосфере В.И. Вернадского»", route: "routeVernadsky", page: "page2_vernadsky", distance: 1, participants: 15, isFavorite: false, audience: '12-18'},
+  { title: "«Пифагор». IT-UFA", route: "routePif", page: "page2", distance: 14.3, participants: 15, isFavorite: false, audience: '16-18' },
   { title: "«Авиценна». Биолого-медицинская экскурсия", route: null, isFavorite: false },
-  { title: "Шень Ко: мир научно-технических разработок", route: "routeShenko", page: "page2_shenko", distance: 8.7, participants: 25, isFavorite: false },
-  { title: "«Дмитрий Менделеев». Уфа – химическая столица России: от атомов к материалам будущего»", route: "routeMendeleev", page: "page2_mendeleev", distance: 14, participants: 15, isFavorite: false }
+  { title: "Шень Ко: мир научно-технических разработок", route: "routeShenko", page: "page2_shenko", distance: 8.7, participants: 25, isFavorite: false, audience: '16-18'},
+  { title: "«Дмитрий Менделеев». Уфа – химическая столица России: от атомов к материалам будущего»", route: "routeMendeleev", page: "page2_mendeleev", distance: 14, participants: 15, isFavorite: false, audience: '12-18' }
 ]);
 
 
@@ -61,7 +62,8 @@ const filteredRoutes = computed(() => {
     return (
       route.title.toLowerCase().includes(searchQuery.value.toLowerCase()) &&
       (filterDistance.value === null || (route.distance !== undefined && route.distance <= filterDistance.value)) &&
-      (filterParticipants.value === null || (route.participants !== undefined && route.participants <= filterParticipants.value))
+      (filterParticipants.value === null || (route.participants !== undefined && route.participants <= filterParticipants.value)) &&
+      (filterAudience.value === "" || route.audience === filterAudience.value) // Исправлено
     );
   });
 });
@@ -71,9 +73,11 @@ const filteredRoutes = computed(() => {
 const applyFilters = (filters) => {
   filterDistance.value = filters.minDistance;
   filterParticipants.value = filters.maxParticipants;
+  filterAudience.value = filters.selectedAudience;
   localStorage.setItem('filters', JSON.stringify({
     filterDistance: filters.minDistance,
-    filterParticipants: filters.maxParticipants
+    filterParticipants: filters.maxParticipants,
+    filterAudience: filters.selectedAudience
   }));
   showFilterPopup.value = false;
 };
@@ -83,6 +87,7 @@ const resetFilters = () => {
   searchQuery.value = ''; // Очистить строку поиска
   filterDistance.value = null; // Сбросить фильтр по расстоянию
   filterParticipants.value = null; // Сбросить фильтр по количеству участников
+  filterAudience.value = "";
   localStorage.removeItem('filters'); // Удалить сохраненные фильтры из localStorage
   localStorage.removeItem('searchQuery'); // Удалить строку поиска из localStorage
 };
@@ -169,6 +174,7 @@ onMounted(async () => {
   if (savedFilters) {
     filterDistance.value = savedFilters.filterDistance;
     filterParticipants.value = savedFilters.filterParticipants;
+    filterAudience.value = savedFilters.filterAudience;
   }
   const savedSearchQuery = localStorage.getItem('searchQuery');
   if (savedSearchQuery) {

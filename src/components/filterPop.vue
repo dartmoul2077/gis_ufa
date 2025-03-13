@@ -4,9 +4,10 @@ import { ref } from 'vue';
 const emit = defineEmits(['apply', 'close']);
 const minDistance = ref(null);
 const maxParticipants = ref(null);
+const selectedAudience = ref('');
 
 const applyFilters = () => {
-  emit('apply', { minDistance: minDistance.value, maxParticipants: maxParticipants.value });
+  emit('apply', { minDistance: minDistance.value, maxParticipants: maxParticipants.value, selectedAudience: selectedAudience.value });
 };
 </script>
 
@@ -20,6 +21,14 @@ const applyFilters = () => {
 
       <label class="block mt-3">Макс. кол-во участников</label>
       <input v-model="maxParticipants" type="number" class="border p-1 w-full">
+
+      <label class="block mt-3">Целевая аудитория</label>
+      <select v-model="selectedAudience" class="border p-1 w-full">
+        <!-- <option :value="null">Все</option> -->
+        <option value="15-17">15-17</option>
+        <option value="12-18">12-18</option>
+        <option value="16-18">16-18</option>
+      </select>
 
       <div class="flex justify-end mt-4 space-x-2">
         <button @click="applyFilters" class="bg-blue-500 text-white px-4 py-2 rounded">Применить</button>
