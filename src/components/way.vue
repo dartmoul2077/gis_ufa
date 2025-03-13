@@ -224,6 +224,9 @@ defineExpose({
 
   <filterPop 
     v-if="showFilterPopup"
+    :min-distance="filterDistance"
+    :max-participants="filterParticipants"
+    :selected-audience="filterAudience"
     @apply="applyFilters" 
     @close="showFilterPopup = false"
   />

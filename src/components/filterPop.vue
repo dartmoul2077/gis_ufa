@@ -1,10 +1,18 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, defineProps } from 'vue';
+
+const props = defineProps({
+  minDistance: { type: Number, default: null }, // Текущее значение расстояния
+  maxParticipants: { type: Number, default: null }, // Текущее значение участников
+  selectedAudience: { type: String, default: '' }, // Текущая аудитория
+});
+
+// Инициализируйте локальные состояния через props
+const minDistance = ref(props.minDistance);
+const maxParticipants = ref(props.maxParticipants);
+const selectedAudience = ref(props.selectedAudience);
 
 const emit = defineEmits(['apply', 'close']);
-const minDistance = ref(null);
-const maxParticipants = ref(null);
-const selectedAudience = ref('');
 
 const applyFilters = () => {
   emit('apply', { minDistance: minDistance.value, maxParticipants: maxParticipants.value, selectedAudience: selectedAudience.value });
@@ -24,9 +32,9 @@ const applyFilters = () => {
 
       <label class="block mt-3">Целевая аудитория</label>
       <select v-model="selectedAudience" class="border p-1 w-full">
-        <!-- <option :value="null">Все</option> -->
-        <option value="15-17">15-17</option>
+        <option :value="''">Все</option>
         <option value="12-18">12-18</option>
+        <option value="15-17">15-17</option>
         <option value="16-18">16-18</option>
       </select>
 
