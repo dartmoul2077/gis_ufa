@@ -114,7 +114,16 @@ const wayRef = ref(null);
             <uust v-if="currentPage === 'uust'" @navigateBack="currentPage = 'page2'"/>
             <favoritesPage 
                 v-if="currentPage === 'favorites'" 
-                :routes="wayRef?.routes" />
+                :routes="wayRef?.routes"
+                @navigate="currentPage = 'page2'" 
+                @selectRoute="(route) => {
+                currentRoute = route;
+                if (route === 'routeShenko') currentPage = 'page2_shenko';
+                else if (route === 'routeSokrat') currentPage = 'page2_sokrat';
+                else if (route === 'routeTsiolkovsky') currentPage = 'page2_tsiolkovsky';
+                else if (route === 'routeVernadsky') currentPage = 'page2_vernadsky';
+                else if (route === 'routeMendeleev') currentPage = 'page2_mendeleev';
+                else if (route === 'routeAll') currentPage = 'page2';}"/>
             
         </div>
 

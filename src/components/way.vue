@@ -118,15 +118,18 @@ const loadFavorites = async () => {
     const userDocRef = doc(db, "users", user.uid);
     const userDoc = await getDoc(userDocRef);
     if (userDoc.exists()) {
-      const savedTitles = userDoc.data().favorites || [];
+      const savedFavorites = userDoc.data().favorites || [];
+      
+      // Обновляем isFavorite для всех маршрутов, сравнивая по title
       routes.value.forEach(route => {
-        route.isFavorite = savedTitles.includes(route.title);
+        route.isFavorite = savedFavorites.some(fav => fav.title === route.title);
       });
     }
   } else {
-    const savedTitles = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const savedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    
     routes.value.forEach(route => {
-      route.isFavorite = savedTitles.includes(route.title);
+      route.isFavorite = savedFavorites.some(fav => fav.title === route.title);
     });
   }
 };
@@ -146,22 +149,21 @@ const toggleFavorite = async (route) => {
     }
 
     let favorites = (await getDoc(userDocRef)).data().favorites || [];
-
+    // Сохраняем весь объект route вместо title
     if (route.isFavorite) {
-      favorites.push(route.title);
+      favorites.push(route);
     } else {
-      favorites = favorites.filter(title => title !== route.title);
+      favorites = favorites.filter(item => item.title !== route.title); // Удаляем по названию
     }
 
     await updateDoc(userDocRef, { favorites });
 
   } else {
-    // Если пользователь не авторизован – сохраняем в localStorage
     let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     if (route.isFavorite) {
-      favorites.push(route.title);
+      favorites.push(route);
     } else {
-      favorites = favorites.filter(title => title !== route.title);
+      favorites = favorites.filter(item => item.title !== route.title);
     }
     localStorage.setItem('favorites', JSON.stringify(favorites));
   }
