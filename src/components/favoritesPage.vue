@@ -52,17 +52,24 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="p-4 bg-indigo-800 text-white text-center">
-    <h2 class="text-2xl mb-4">Избранные маршруты</h2>
-    <div v-if="favorites.length === 0">Нет избранных маршрутов</div>
-    <div v-else>
+  <div class="p-4 bg-indigo-800 text-white ">
+    <h2 class="text-2xl mb-6 text-center">Избранные маршруты</h2>
+    <div v-if="!favorites.length" class="text-center text-gray-300">
+      Нет избранных маршрутов
+    </div>
+    <div v-else class="space-y-3 mx-auto" style="width: 420px;">
       <div 
         v-for="fav in favorites" 
-        :key="fav.title" 
-        class="py-2 border-b border-gray-600 cursor-pointer"
-        @click="navigateToRoute(fav)"
+        :key="fav.title"
       >
-        {{ fav.title }}
+        <button 
+          class="relative w-full py-2 px-4 border-2 border-green-500 text-green-500 rounded-md hover:bg-green-500
+           hover:text-white transition overflow-visible text-center flex items-center justify-center"
+          @click="navigateToRoute(fav)"
+        >
+          <span>{{ fav.title }}</span>
+        </button>
+        
       </div>
     </div>
   </div>
