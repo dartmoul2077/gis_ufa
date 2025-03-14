@@ -144,27 +144,33 @@ const toggleFavorite = async (route) => {
     const userDoc = await getDoc(userDocRef);
 
     if (!userDoc.exists()) {
-      // Если документа нет, создаем его
       await setDoc(userDocRef, { favorites: [] });
     }
 
     let favorites = (await getDoc(userDocRef)).data().favorites || [];
-    // Сохраняем весь объект route вместо title
     if (route.isFavorite) {
       favorites.push(route);
     } else {
-      favorites = favorites.filter(item => item.title !== route.title); // Удаляем по названию
+      favorites = favorites.filter(item => item.title !== route.title);
     }
 
     await updateDoc(userDocRef, { favorites });
 
   } else {
     let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    
+    const simplifiedRoute = { 
+      title: route.title, 
+      route: route.route, 
+      page: route.page 
+    };
+    
     if (route.isFavorite) {
-      favorites.push(route);
+      favorites.push(simplifiedRoute);
     } else {
       favorites = favorites.filter(item => item.title !== route.title);
     }
+    
     localStorage.setItem('favorites', JSON.stringify(favorites));
   }
 };

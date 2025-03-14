@@ -40,11 +40,13 @@ onMounted(async () => {
 
     if (userDoc.exists()) {
       const savedFavorites = userDoc.data().favorites || [];
-      favorites.value = savedFavorites;
+      // Фильтрация пустых или некорректных записей
+      favorites.value = savedFavorites.filter(fav => fav?.title);
     }
   } else {
     const savedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    favorites.value = savedFavorites;
+    // Убедимся, что данные имеют правильную структуру
+    favorites.value = savedFavorites.filter(fav => fav?.title);
   }
 });
 </script>
