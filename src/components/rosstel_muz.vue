@@ -24,12 +24,8 @@
             радиоприемники и грампластинки.
         </P>
   
-        <p>
-            Адрес: ул. Ленина, 30
-        </p>
-
         <span>
-            Ссылка на сайт: <a href="https://rostelecom-rb.ru/muzey-svyazi/">https://rostelecom-rb.ru/muzey-svyazi/</a>
+            Адрес: ул. Ленина, 30
         </span>
       </div>
   
