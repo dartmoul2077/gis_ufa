@@ -47,13 +47,13 @@ const filterAudience = ref(""); // Новое состояние
 // });
 
 const routes = ref([
-  { title: "«Сократ»: научно-популярный маршрут гуманитарной направленности", route: "routeSokrat", page: 'page2_sokrat', distance: 8.5, participants: 15, isFavorite: false, audience: '15-17'},
-  { title: "Уфа физико-математическая: «Циолковский». Уфа сквозь призму математики и физики", route: "routeTsiolkovsky", page: "page2_tsiolkovsky", distance: 22, participants: 15, isFavorite: false, audience: '12-18'},
-  { title: "«Уфа естественно-научная: от зарождения жизни на Земле к ноосфере В.И. Вернадского»", route: "routeVernadsky", page: "page2_vernadsky", distance: 1, participants: 15, isFavorite: false, audience: '12-18'},
-  { title: "«Пифагор». IT-UFA", route: "routePif", page: "page2", distance: 14.3, participants: 15, isFavorite: false, audience: '16-18' },
+  { title: "«Сократ»: научно-популярный маршрут гуманитарной направленности", route: "routeSokrat", page: 'page2_sokrat', distance: 8.5, participants: 15, isFavorite: false, audience: '15-17', duration:240},
+  { title: "Уфа физико-математическая: «Циолковский». Уфа сквозь призму математики и физики", route: "routeTsiolkovsky", page: "page2_tsiolkovsky", distance: 22, participants: 15, isFavorite: false, audience: '12-18', duration:220},
+  { title: "«Уфа естественно-научная: от зарождения жизни на Земле к ноосфере В.И. Вернадского»", route: "routeVernadsky", page: "page2_vernadsky", distance: 1, participants: 15, isFavorite: false, audience: '12-18', duration:245},
+  { title: "«Пифагор». IT-UFA", route: "routePif", page: "page2", distance: 14.3, participants: 15, isFavorite: false, audience: '16-18',duration:275},
   { title: "«Авиценна». Биолого-медицинская экскурсия", route: null, isFavorite: false },
-  { title: "Шень Ко: мир научно-технических разработок", route: "routeShenko", page: "page2_shenko", distance: 8.7, participants: 25, isFavorite: false, audience: '16-18'},
-  { title: "«Дмитрий Менделеев». Уфа – химическая столица России: от атомов к материалам будущего»", route: "routeMendeleev", page: "page2_mendeleev", distance: 14, participants: 15, isFavorite: false, audience: '12-18' }
+  { title: "Шень Ко: мир научно-технических разработок", route: "routeShenko", page: "page2_shenko", distance: 8.7, participants: 25, isFavorite: false, audience: '16-18', duration:220},
+  { title: "«Дмитрий Менделеев». Уфа – химическая столица России: от атомов к материалам будущего»", route: "routeMendeleev", page: "page2_mendeleev", distance: 14, participants: 15, isFavorite: false, audience: '12-18', duration:240}
 ]);
 
 
