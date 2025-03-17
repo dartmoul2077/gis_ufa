@@ -30,7 +30,8 @@ const showFilterPopup = ref(false);
 const filterDistance = ref(null);
 const filterParticipants = ref(null);
 const filterAudience = ref(""); // Новое состояние
-
+const filterMinDuration = ref(0);
+const filterMaxDuration = ref(300);
 
 // Загружаем фильтры из localStorage при монтировании компонента
 // onMounted(() => {
@@ -51,7 +52,7 @@ const routes = ref([
   { title: "Уфа физико-математическая: «Циолковский». Уфа сквозь призму математики и физики", route: "routeTsiolkovsky", page: "page2_tsiolkovsky", distance: 22, participants: 15, isFavorite: false, audience: '12-18', duration:220},
   { title: "«Уфа естественно-научная: от зарождения жизни на Земле к ноосфере В.И. Вернадского»", route: "routeVernadsky", page: "page2_vernadsky", distance: 1, participants: 15, isFavorite: false, audience: '12-18', duration:245},
   { title: "«Пифагор». IT-UFA", route: "routePif", page: "page2", distance: 14.3, participants: 15, isFavorite: false, audience: '16-18',duration:275},
-  { title: "«Авиценна». Биолого-медицинская экскурсия", route: null, isFavorite: false },
+  { title: "«Авиценна». Биолого-медицинская экскурсия", route: null, isFavorite: false, duration: 240},
   { title: "Шень Ко: мир научно-технических разработок", route: "routeShenko", page: "page2_shenko", distance: 8.7, participants: 25, isFavorite: false, audience: '16-18', duration:220},
   { title: "«Дмитрий Менделеев». Уфа – химическая столица России: от атомов к материалам будущего»", route: "routeMendeleev", page: "page2_mendeleev", distance: 14, participants: 15, isFavorite: false, audience: '12-18', duration:240}
 ]);
@@ -63,7 +64,8 @@ const filteredRoutes = computed(() => {
       route.title.toLowerCase().includes(searchQuery.value.toLowerCase()) &&
       (filterDistance.value === null || (route.distance !== undefined && route.distance <= filterDistance.value)) &&
       (filterParticipants.value === null || (route.participants !== undefined && route.participants <= filterParticipants.value)) &&
-      (filterAudience.value === "" || route.audience === filterAudience.value) // Исправлено
+      (filterAudience.value === "" || route.audience === filterAudience.value) &&
+      (route.duration >= filterMinDuration.value && route.duration <= filterMaxDuration.value) // Фильтр по длительности
     );
   });
 });
@@ -74,10 +76,15 @@ const applyFilters = (filters) => {
   filterDistance.value = filters.minDistance;
   filterParticipants.value = filters.maxParticipants;
   filterAudience.value = filters.selectedAudience;
+  filterMinDuration.value = filters.minDuration;
+  filterMaxDuration.value = filters.maxDuration;
+
   localStorage.setItem('filters', JSON.stringify({
     filterDistance: filters.minDistance,
     filterParticipants: filters.maxParticipants,
-    filterAudience: filters.selectedAudience
+    filterAudience: filters.selectedAudience,
+    filterMinDuration: filters.minDuration,
+    filterMaxDuration: filters.maxDuration
   }));
   showFilterPopup.value = false;
 };
@@ -88,6 +95,8 @@ const resetFilters = () => {
   filterDistance.value = null; // Сбросить фильтр по расстоянию
   filterParticipants.value = null; // Сбросить фильтр по количеству участников
   filterAudience.value = "";
+  filterMinDuration.value = 0; // Сбросить минимальную продолжительность
+  filterMaxDuration.value = 300; // Сбросить максимальную продолжительность
   localStorage.removeItem('filters'); // Удалить сохраненные фильтры из localStorage
   localStorage.removeItem('searchQuery'); // Удалить строку поиска из localStorage
 };
@@ -183,6 +192,8 @@ onMounted(async () => {
     filterDistance.value = savedFilters.filterDistance;
     filterParticipants.value = savedFilters.filterParticipants;
     filterAudience.value = savedFilters.filterAudience;
+    filterMinDuration.value = savedFilters.filterMinDuration; // Восстанавливаем слайдер
+    filterMaxDuration.value = savedFilters.filterMaxDuration; // Восстанавливаем слайдер
   }
   const savedSearchQuery = localStorage.getItem('searchQuery');
   if (savedSearchQuery) {
@@ -235,6 +246,8 @@ defineExpose({
     :min-distance="filterDistance"
     :max-participants="filterParticipants"
     :selected-audience="filterAudience"
+    :min-duration="filterMinDuration"
+    :max-duration="filterMaxDuration"
     @apply="applyFilters" 
     @close="showFilterPopup = false"
   />

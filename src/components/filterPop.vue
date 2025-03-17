@@ -5,17 +5,31 @@ const props = defineProps({
   minDistance: { type: Number, default: null }, // Текущее значение расстояния
   maxParticipants: { type: Number, default: null }, // Текущее значение участников
   selectedAudience: { type: String, default: '' }, // Текущая аудитория
+  minDuration: { type: Number, default: 0 },  // Новое свойство
+  maxDuration: { type: Number, default: 300 } // Новое свойство
 });
 
 // Инициализируйте локальные состояния через props
 const minDistance = ref(props.minDistance);
 const maxParticipants = ref(props.maxParticipants);
 const selectedAudience = ref(props.selectedAudience);
+const durationRange = ref([props.minDuration, props.maxDuration]); // Значения слайдера
+
+// Функция для форматирования минут в "часы:минуты"
+const formatTime = (minutes) => {
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  return `${hours}ч ${mins}м`;
+};
 
 const emit = defineEmits(['apply', 'close']);
 
 const applyFilters = () => {
-  emit('apply', { minDistance: minDistance.value, maxParticipants: maxParticipants.value, selectedAudience: selectedAudience.value });
+  emit('apply', { minDistance: minDistance.value, 
+                  maxParticipants: maxParticipants.value, 
+                  selectedAudience: selectedAudience.value,
+                  minDuration: durationRange.value[0],
+                  maxDuration: durationRange.value[1]});
 };
 </script>
 
@@ -37,6 +51,11 @@ const applyFilters = () => {
         <option value="15-17">15-17</option>
         <option value="16-18">16-18</option>
       </select>
+
+      <label class="block mt-3">Продолжительность маршрута</label>
+      <input type="range" v-model="durationRange[0]" :min="0" :max="300" step="5" class="w-full">
+      <input type="range" v-model="durationRange[1]" :min="0" :max="300" step="5" class="w-full">
+      <p>{{ formatTime(durationRange[0]) }} - {{ formatTime(durationRange[1]) }}</p>
 
       <div class="flex justify-end mt-4 space-x-2">
         <button @click="applyFilters" class="bg-blue-500 text-white px-4 py-2 rounded">Применить</button>
