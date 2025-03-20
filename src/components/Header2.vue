@@ -20,7 +20,7 @@
           </li>
   
           <li v-if="!isLoggedIn">
-            <span class="text-white cursor-pointer hover:underline" @click="$emit('navigateToRegister')">Авторизация</span>
+            <span class="text-white cursor-pointer hover:underline" @click="$emit('navigateToRegister')">Создать аккаунт</span>
           </li>
 
           <li v-if="!isLoggedIn">
