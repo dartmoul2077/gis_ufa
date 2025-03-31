@@ -118,8 +118,11 @@ import Timeline_mendeleev from './Timeline_mendeleev.vue';
           <span class="text-l">
             Объекты маршрута «Дмитрий Менделеев».
           </span>
-
-          <Timeline_mendeleev />
+          
+          <div class="flex justify-center">
+            <Timeline_mendeleev />
+          </div>
+          
 
         </div>
       </div>

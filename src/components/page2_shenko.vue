@@ -114,8 +114,11 @@ import Timeline_shenko from './Timeline_shenko.vue';
           <span class="text-l">
             Объекты маршрута «Шень Ко».
           </span>
-
-          <Timeline_shenko />
+          
+          <div class="flex justify-center">
+            <Timeline_shenko />
+          </div>
+          
 
         </div>
       </div>

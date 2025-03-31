@@ -115,7 +115,9 @@ import Timeline from './Timeline.vue';
             Объекты маршрута «Пифагор». IT-UFA
           </span>
 
-          <Timeline />
+          <div class="flex justify-center">
+            <Timeline />
+          </div>
 
         </div>
       </div>

@@ -118,8 +118,10 @@ import Timeline_tsiolkovsky from './Timeline_tsiolkovsky.vue';
             Объекты маршрута «Константин Циолковский».
           </span>
 
-          <Timeline_tsiolkovsky />
-
+          <div class="flex justify-center">
+            <Timeline_tsiolkovsky />
+          </div>
+    
         </div>
       </div>
     </div>

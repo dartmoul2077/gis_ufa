@@ -16,11 +16,11 @@
         <!-- Кнопка "глаз" для скрытия/показа пароля -->
         <button 
             type="button"
-            class="absolute inset-y-0 right-2 flex items-center px-2 text-gray-600"
+            class="absolute inset-y-0 right-1 flex items-center px-2 text-gray-600"
             @click="togglePassword"
         >
-            <span v-if="showPassword">🙈</span> <!-- Если пароль видимый -->
-            <span v-else>👁️</span>  <!-- Если пароль скрыт -->
+        <img v-if="showPassword" src="/public/open_eye.svg" alt="Hide password" class="h-5 w-5">
+        <img v-else src="/public/hide_eye.svg" alt="Show password" class="h-5 w-5">
         </button>
     </p>
 

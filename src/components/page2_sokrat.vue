@@ -116,8 +116,11 @@ import Timeline_sokrat from './Timeline_sokrat.vue';
           <span class="text-l">
             Объекты маршрута «Сократ».
           </span>
-
-          <Timeline_sokrat />
+          
+          <div class="flex justify-center">
+            <Timeline_sokrat />
+          </div>
+          
 
         </div>
       </div>

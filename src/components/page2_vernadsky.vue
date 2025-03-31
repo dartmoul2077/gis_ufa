@@ -117,8 +117,9 @@ import Timeline_vernadsky from './Timeline_vernadsky.vue';
           <span class="text-l">
             Объекты маршрута «Вернадский».
           </span>
-
-          <Timeline_vernadsky />
+          <div class="flex justify-center">
+            <Timeline_vernadsky />
+          </div>
 
         </div>
       </div>
