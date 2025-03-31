@@ -114,6 +114,36 @@
 <template>
   <div>
     <div id="map" class="map" tabindex="0"></div>
+    <div class="legend">
+      <div class="legend-item">
+        <span class="legend-line" style="background-color: rgba(0, 148, 255, 1)"></span>
+        <span class="legend-label">Маршрут Пифагор</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-line" style="background-color: rgba(243, 211, 46, 1)"></span>
+        <span class="legend-label">Маршрут Ависцена</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-line" style="background-color: rgba(150, 105, 200, 1)"></span>
+        <span class="legend-label">Маршрут Вернадский</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-line" style="background-color: rgba(0, 168, 221, 1)"></span>
+        <span class="legend-label">Маршрут Менделеев</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-line" style="background-color: rgba(255, 184, 0, 1)"></span>
+        <span class="legend-label">Маршрут Сократ</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-line" style="background-color: rgba(255, 107, 0, 1)"></span>
+        <span class="legend-label">Маршрут Циолковский</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-line" style="background-color: rgba(52, 215, 215, 1)"></span>
+        <span class="legend-label">Маршрут Шен-Ко</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -160,7 +190,7 @@
             }),
           ],
           view: new View({
-            center: fromLonLat([55.9721, 54.7388]), // Центр карты (Уфа)
+            center: fromLonLat([55.9721 + 0.03, 54.7388]), // Центр карты (Уфа)
             zoom: 13, // Начальный зум
           }),
         });
@@ -349,10 +379,38 @@
     width: 100%;
     height: 740px;
     border: 1px solid #ccc;
+    position: relative; /* Чтобы легенда могла быть абсолютно спозиционирована */
   }
+
   .controls {
     margin-top: 10px;
   }
+
+  .legend {
+    position: absolute;
+    top: 60px;
+    right: 3px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000; /* Убедитесь, что легенда находится поверх карты */
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  .legend-line {
+    width: 40px; /* Длина линии */
+    height: 4px; /* Толщина линии */
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  .legend-label {
+    font-size: 14px;
+  }
 </style>
-
-
