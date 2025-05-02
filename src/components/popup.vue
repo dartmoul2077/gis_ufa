@@ -49,6 +49,23 @@
       const popupOffset = ref({ x: 0, y: 0 });
       const popupAddress = ref(""); // Хранит адрес для текущей точки
       const popupUrl = ref("");
+      const selectedFeature = ref(null); // Храним выделенную точку
+
+      const defaultPointStyle = new Style({
+        image: new Circle({
+        radius: 7,
+        fill: new Fill({ color: 'rgba(0, 148, 255, 1)' }),
+        stroke: new Stroke({ color: 'black', width: 1 }),
+        }),
+      });
+
+      const selectedPointStyle = new Style({
+      image: new Circle({
+      radius: 9,
+      fill: new Fill({ color: 'red' }),
+      stroke: new Stroke({ color: 'black', width: 2 }),
+        }),
+      });
   
       onMounted(() => {
         const map = new Map({
@@ -134,6 +151,7 @@
   
         // === Обработка кликов ===
         map.on('singleclick', (evt) => {
+          let found = false;
           map.forEachFeatureAtPixel(evt.pixel, (feature) => {
             const name = feature.get('name');
             const position = feature.get('popupPosition'); // Получаем фиксированную позицию для этой точки
@@ -141,12 +159,23 @@
             const url = feature.get('url');
 
             if (name) {
-              popupText.value = name;
-              popupAddress.value = address; // Устанавливаем адрес
-              popupPosition.value = position; // Устанавливаем позицию окна для данной точки
-              popupVisible.value = true;
-              popupUrl.value = url;
-            }
+      // Сброс стиля предыдущей выбранной точки
+      if (selectedFeature.value) {
+        selectedFeature.value.setStyle(defaultPointStyle);
+      }
+
+      // Установить стиль для новой выбранной
+      feature.setStyle(selectedPointStyle);
+      selectedFeature.value = feature;
+
+      popupText.value = name;
+      popupAddress.value = address;
+      popupPosition.value = position;
+      popupVisible.value = true;
+      popupUrl.value = url;
+
+      found = true;
+    }
 
           });
         });
@@ -156,6 +185,11 @@
       const popup = document.querySelector('.custom-popup');
       if (popup) {
         popup.classList.add('hidden');
+      // Сброс стиля выделенной точки
+      if (selectedFeature.value) {
+        selectedFeature.value.setStyle(defaultPointStyle);
+        selectedFeature.value = null;}
+
         setTimeout(() => {
         popupVisible.value = false;
       }, 300); // Ждем окончания анимации (300 мс)
