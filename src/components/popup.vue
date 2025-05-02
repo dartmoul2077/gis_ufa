@@ -66,6 +66,8 @@
       stroke: new Stroke({ color: 'black', width: 2 }),
         }),
       });
+
+      let map = null;
   
       onMounted(() => {
         const map = new Map({
@@ -112,14 +114,14 @@
         // === Слой точек ===
         const pointSource = new VectorSource();
         const coordinates = [
-          [55.936081, 54.720401, "Кампус Евразийского НОЦ РБ", { x: 650, y: 485 }, "ул. Заки Валиди, 32/2", "https://campus.nocrb.ru/"],
-          [55.940732, 54.724981, "УУНиТ", { x: 680, y: 440 }, "ул. Карла Маркса, 12", "https://uust.ru/"],
-          [55.942299, 54.729234, "ООО НПП «Полигон»", { x: 690, y: 395 }, "ул. Карла Маркса, 37/1", "https://plgn.ru/"],
-          [55.947889, 54.726752, "Музей связи компании «Ростелеком»", { x: 715, y: 420 }, "ул. Ленина, 30", "https://rostelecom-rb.ru/muzey-svyazi/"],
-          [55.960789, 54.729599, "Детский технопарк «Кванториум Башкортостана»", { x: 790, y: 375 }, "ул. Кирова, 43", "https://kvantoriumrb.02edu.ru/"],
-          [55.983218, 54.726248, "Проектный офис цифровой трансформации «Ростелеком»", { x: 925, y: 410 }, "ул. Кирова, 105", "https://rostelecom-rb.ru/"],
-          [56.007203, 54.716375, "Центр роботизации бизнеса «Ufarobotics»", { x: 1070, y: 510 }, "ул. Менделеева, 134/7, 4 этаж", "https://ufarobotics.ru/"],
-          [55.989414, 54.741021, "АО «Уфанет»", { x: 965, y: 280 }, "пр. Октября, 4/3", "https://www.ufanet.ru/"],
+          [55.936081, 54.720401, "Кампус Евразийского НОЦ РБ", "ул. Заки Валиди, 32/2", "https://campus.nocrb.ru/"],
+          [55.940732, 54.724981, "УУНиТ", "ул. Карла Маркса, 12", "https://uust.ru/"],
+          [55.942299, 54.729234, "ООО НПП «Полигон»", "ул. Карла Маркса, 37/1", "https://plgn.ru/"],
+          [55.947889, 54.726752, "Музей связи компании «Ростелеком»", "ул. Ленина, 30", "https://rostelecom-rb.ru/muzey-svyazi/"],
+          [55.960789, 54.729599, "Детский технопарк «Кванториум Башкортостана»", "ул. Кирова, 43", "https://kvantoriumrb.02edu.ru/"],
+          [55.983218, 54.726248, "Проектный офис цифровой трансформации «Ростелеком»", "ул. Кирова, 105", "https://rostelecom-rb.ru/"],
+          [56.007203, 54.716375, "Центр роботизации бизнеса «Ufarobotics»", "ул. Менделеева, 134/7, 4 этаж", "https://ufarobotics.ru/"],
+          [55.989414, 54.741021, "АО «Уфанет»", "пр. Октября, 4/3", "https://www.ufanet.ru/"],
         ];
   
         const pointStyle = new Style({
@@ -130,12 +132,11 @@
           }),
         });
   
-        coordinates.forEach(([lon, lat, name, position, address, url]) => {
+        coordinates.forEach(([lon, lat, name, address, url]) => {
           const pointFeature = new Feature({
             geometry: new Point(fromLonLat([lon, lat])),
           });
           pointFeature.set('name', name);
-          pointFeature.set('popupPosition', position); // Сохраняем фиксированную позицию для каждой точки
           pointFeature.set('address', address); // Добавляем адрес
           pointFeature.set('url', url); // Добавляем URL для каждой точки
           pointFeature.setStyle(pointStyle);
@@ -154,7 +155,6 @@
           let found = false;
           map.forEachFeatureAtPixel(evt.pixel, (feature) => {
             const name = feature.get('name');
-            const position = feature.get('popupPosition'); // Получаем фиксированную позицию для этой точки
             const address = feature.get('address'); // Получаем адрес точ
             const url = feature.get('url');
 
@@ -168,9 +168,49 @@
       feature.setStyle(selectedPointStyle);
       selectedFeature.value = feature;
 
+      // Получаем координаты и пиксели
+      const coordinate = feature.getGeometry().getCoordinates();
+      const pixel = map.getPixelFromCoordinate(coordinate);
+
+      // Смещение относительно окна
+      const mapElement = document.getElementById('map');
+      const mapRect = mapElement.getBoundingClientRect();
+
+      // Размеры popup (из CSS: width=280px, height≈200px)
+      const popupWidth = 280;
+      const popupHeight = 200;
+
+      // Рассчитываем позицию
+      let popupX = mapRect.left + pixel[0] - popupWidth / 2; // Центрируем по горизонтали
+      let popupY = mapRect.top + pixel[1] - popupHeight + 10; // Фиксированный отступ сверху
+
+      // Список объектов, для которых нужно дополнительное смещение
+      const specialObjects = [
+        "Проектный офис цифровой трансформации «Ростелеком»",
+        "Детский технопарк «Кванториум Башкортостана»",
+        "Центр роботизации бизнеса «Ufarobotics»"
+        ];
+
+      // Получаем название текущей точки
+      const pointName = feature.get('name');
+
+      // Если точка в списке особых объектов, добавляем дополнительное смещение
+      if (specialObjects.includes(pointName)) {
+        popupY -= 16; // Поднимаем popup еще выше на 30px
+      }
+      
+      // Проверка границ (чтобы popup не выходил за пределы карты)
+      if (popupX < mapRect.left) popupX = mapRect.left + 10;
+      if (popupX + popupWidth > mapRect.right) popupX = mapRect.right - popupWidth - 10;
+      if (popupY < mapRect.top) popupY = mapRect.top + 10;
+
+      popupPosition.value = {
+      x: popupX,
+      y: popupY
+      };
+
       popupText.value = name;
       popupAddress.value = address;
-      popupPosition.value = position;
       popupVisible.value = true;
       popupUrl.value = url;
 
