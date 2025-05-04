@@ -33,6 +33,7 @@ const filterAudience = ref(""); // Новое состояние
 const filterMinDuration = ref(0);
 const filterMaxDuration = ref(300);
 
+const favoritesLoaded = ref(false);
 // Загружаем фильтры из localStorage при монтировании компонента
 // onMounted(() => {
 //   const savedFilters = JSON.parse(localStorage.getItem('filters'));
@@ -200,6 +201,7 @@ onMounted(async () => {
     searchQuery.value = savedSearchQuery;
   }
   await loadFavorites();
+  favoritesLoaded.value = true;
 });
 
 // Отслеживание изменения авторизации и обновление избранного
@@ -221,7 +223,7 @@ defineExpose({
   <search v-model="searchQuery" placeholderText="найти маршрут" :showFilter="true" @click-filter="showFilterPopup = true" />
 
   <!-- Фильтрованный список маршрутов -->
-  <div class="space-y-3" style="width: 420px">
+  <div v-if="favoritesLoaded" class="space-y-3" style="width: 420px">
     <buttons 
       v-for="route in filteredRoutes" 
       :key="route.title" 
