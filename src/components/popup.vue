@@ -168,46 +168,48 @@
       feature.setStyle(selectedPointStyle);
       selectedFeature.value = feature;
 
-      // Получаем координаты и пиксели
+      // Получаем координаты точки в пикселях относительно карты
       const coordinate = feature.getGeometry().getCoordinates();
       const pixel = map.getPixelFromCoordinate(coordinate);
 
-      // Смещение относительно окна
+      // Получаем элемент карты и его абсолютные координаты на странице
       const mapElement = document.getElementById('map');
       const mapRect = mapElement.getBoundingClientRect();
+      const mapAbsoluteLeft = mapRect.left + window.pageXOffset;
+      const mapAbsoluteTop = mapRect.top + window.pageYOffset;
 
-      // Размеры popup (из CSS: width=280px, height≈200px)
+      // Размеры popup (из CSS)
       const popupWidth = 280;
       const popupHeight = 200;
 
-      // Рассчитываем позицию
-      let popupX = mapRect.left + pixel[0] - popupWidth / 2; // Центрируем по горизонтали
-      let popupY = mapRect.top + pixel[1] - popupHeight + 10; // Фиксированный отступ сверху
+      // Рассчитываем позицию относительно карты (уже с учётом скролла)
+      let popupX = pixel[0] - popupWidth / 2; // Центрирование по X
+      let popupY = pixel[1] - popupHeight + 10; // Смещение по Y
 
-      // Список объектов, для которых нужно дополнительное смещение
+      // Список объектов с особым смещением
       const specialObjects = [
         "Проектный офис цифровой трансформации «Ростелеком»",
         "Детский технопарк «Кванториум Башкортостана»",
         "Центр роботизации бизнеса «Ufarobotics»"
         ];
 
-      // Получаем название текущей точки
-      const pointName = feature.get('name');
-
-      // Если точка в списке особых объектов, добавляем дополнительное смещение
-      if (specialObjects.includes(pointName)) {
-        popupY -= 16; // Поднимаем popup еще выше на 30px
+      // Дополнительное смещение для specialObjects
+      if (specialObjects.includes(feature.get('name'))) {
+        popupY -= 16; // Поднимаем ещё выше
       }
-      
-      // Проверка границ (чтобы popup не выходил за пределы карты)
-      if (popupX < mapRect.left) popupX = mapRect.left + 10;
-      if (popupX + popupWidth > mapRect.right) popupX = mapRect.right - popupWidth - 10;
-      if (popupY < mapRect.top) popupY = mapRect.top + 10;
 
-      popupPosition.value = {
-      x: popupX,
-      y: popupY
-      };
+    // Проверка границ карты
+    if (popupX < 0) popupX = 10;
+    if (popupX + popupWidth > mapElement.offsetWidth) {
+      popupX = mapElement.offsetWidth - popupWidth - 10;
+    }
+    if (popupY < 0) popupY = 10;
+
+    // Итоговые координаты (относительно страницы)
+    popupPosition.value = {
+      x: mapAbsoluteLeft + popupX,
+      y: mapAbsoluteTop + popupY
+    };
 
       popupText.value = name;
       popupAddress.value = address;
