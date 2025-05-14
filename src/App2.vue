@@ -6,6 +6,8 @@ import page3 from './components/page3.vue';
 import routeAll from './components/routeAll.vue';
 import routePif from './components/routePif.vue';
 import popup from './components/popup.vue';
+import popup_vernadsky from './components/popup_vernadsky.vue';
+import popup_sokrat from './components/popup_sokrat.vue';
 import testpop from './components/testpop.vue';
 import register from './views/register.vue';
 import signIn from './views/signIn.vue';
@@ -27,6 +29,15 @@ import rosstel from './components/rosstel.vue';
 import tech_park from './components/tech_park.vue';
 import uust from './components/uust.vue';
 import favoritesPage from './components/favoritesPage.vue';
+import vernadsky_1 from './components/vernadsky_1.vue';
+import vernadsky_2 from './components/vernadsky_2.vue';
+import vernadsky_3 from './components/vernadsky_1.vue';
+import sokrat_1 from './components/sokrat_1.vue';
+import sokrat_2 from './components/sokrat_2.vue';
+import sokrat_3 from './components/sokrat_3.vue';
+import sokrat_4 from './components/sokrat_4.vue';
+import sokrat_5 from './components/sokrat_5.vue';
+import sokrat_6 from './components/sokrat_6.vue';
 import { onMounted, ref } from 'vue';
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
@@ -105,6 +116,7 @@ const wayRef = ref(null);
 
             <register v-if="currentPage === 'register'" />
             <signIn v-if="currentPage === 'signIn'" />
+
             <ufarob v-if="currentPage === 'ufarob'" @navigateBack="currentPage = 'page2'"/>
             <nots v-if="currentPage === 'nots'" @navigateBack="currentPage = 'page2'" />
             <poligon v-if="currentPage === 'poligon'" @navigateBack="currentPage = 'page2'" />
@@ -112,6 +124,18 @@ const wayRef = ref(null);
             <rosstel v-if="currentPage === 'rosstel'" @navigateBack="currentPage = 'page2'" />
             <tech_park v-if="currentPage === 'tech_park'" @navigateBack="currentPage = 'page2'"/>
             <uust v-if="currentPage === 'uust'" @navigateBack="currentPage = 'page2'"/>
+
+            <vernadsky_1 v-if="currentPage === 'vernadsky_1'" @navigateBack="currentPage = 'page2'"/>
+            <vernadsky_2 v-if="currentPage === 'vernadsky_2'" @navigateBack="currentPage = 'page2'"/>
+            <vernadsky_3 v-if="currentPage === 'vernadsky_3'" @navigateBack="currentPage = 'page2'"/>
+
+            <sokrat_1 v-if="currentPage === 'sokrat_1'" @navigateBack="currentPage = 'page2'"/>
+            <sokrat_2 v-if="currentPage === 'sokrat_2'" @navigateBack="currentPage = 'page2'"/>
+            <sokrat_3 v-if="currentPage === 'sokrat_3'" @navigateBack="currentPage = 'page2'"/>
+            <sokrat_4 v-if="currentPage === 'sokrat_4'" @navigateBack="currentPage = 'page2'"/>
+            <sokrat_5 v-if="currentPage === 'sokrat_5'" @navigateBack="currentPage = 'page2'"/>
+            <sokrat_6 v-if="currentPage === 'sokrat_6'" @navigateBack="currentPage = 'page2'"/>
+
             <favoritesPage 
                 v-if="currentPage === 'favorites'" 
                 :routes="wayRef?.routes"
@@ -139,10 +163,23 @@ const wayRef = ref(null);
             @navigateToTechPark = "currentPage = 'tech_park'"
             @navigateToUust = "currentPage = 'uust'"/>
             
+            <popup_vernadsky v-else-if="currentRoute === 'routeVernadsky'"
+            @navigateToMainK="currentPage = 'vernadsky_1'"
+            @navigateToMainUust="currentPage = 'vernadsky_2'"
+            @navigateToNotsRb="currentPage = 'vernadsky_3'"    
+            />
+
+            <popup_sokrat v-else-if="currentRoute === 'routeSokrat'"
+            @navigateToNotsRB="currentPage = 'sokrat_1'"
+            @navigateToMainKUust="currentPage = 'sokrat_2'"
+            @navigateToGumK="currentPage = 'sokrat_3'"
+            @UFiS_Ran="currentPage = 'sokrat_4'"
+            @BGPU="currentPage = 'sokrat_5'"
+            @UGNTU="currentPage = 'sokrat_6'"    
+            />
+
             <routeShenko v-else-if="currentRoute === 'routeShenko'" />
-            <routeSokrat v-else-if="currentRoute === 'routeSokrat'"/>
             <routeTsiolkovsky v-else-if="currentRoute === 'routeTsiolkovsky'"/>
-            <routeVernadsky v-else-if="currentRoute === 'routeVernadsky'"/>
             <routeMendeleev v-else-if="currentRoute === 'routeMendeleev'"/>
         </div>
 
