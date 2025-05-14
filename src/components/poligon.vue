@@ -30,7 +30,7 @@
   
       <!-- Скрытые изображения для предпросмотра -->
       <div style="display: none">
-        <a-image-preview-group :preview="{ visible, onVisibleChange: vis => (visible = vis) }">
+        <a-image-preview-group :preview="{ visible, onVisibleChange: (vis: boolean) => (visible = vis)  }">
           <a-image src="/poligon_1.jpg" />
           <a-image src="/poligon_2.jpg" />
         </a-image-preview-group>

@@ -31,7 +31,7 @@
   
       <!-- Скрытые изображения для предпросмотра -->
       <div style="display: none">
-        <a-image-preview-group :preview="{ visible, onVisibleChange: vis => (visible = vis) }">
+        <a-image-preview-group :preview="{ visible, onVisibleChange: (vis: boolean) => (visible = vis)  }">
           <a-image src="/russtel_muz1.jpg" />
           <a-image src="/russtel_muz2.jpg" />
           <a-image src="/russtel_muz3.jpg" />

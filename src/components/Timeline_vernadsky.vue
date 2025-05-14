@@ -44,7 +44,7 @@ export default {
   left: 25px; /* Линия центрируется относительно кружков */
   width: 2px;
   height: calc(100% - 40px);
-  background-color: rgba(255,107,0,255); /* Цвет линии */
+  background-color: rgba(150,105,200,255); /* Цвет линии */
 }
 
 .timeline-item {
@@ -58,7 +58,7 @@ export default {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: rgba(255,107,0,255); 
+  background-color: rgba(150,105,200,255); 
   color: rgba(50,54,142,255);
   display: flex;
   justify-content: center;

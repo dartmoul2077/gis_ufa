@@ -62,18 +62,14 @@
         собственных приложений для удобства клиентов.
       </P>
 
-      <p>
-        Адрес: пр. Октября, 4/3
-      </p>
-
       <span>
-            Ссылка на сайт: <a href="https://www.ufanet.ru/">https://www.ufanet.ru/</a>
+        Адрес: пр. Октября, 4/3
       </span>
     </div>
 
     <!-- Скрытые изображения для предпросмотра -->
     <div style="display: none">
-      <a-image-preview-group :preview="{ visible, onVisibleChange: vis => (visible = vis) }">
+      <a-image-preview-group :preview="{ visible, onVisibleChange: (vis: boolean) => (visible = vis) }">
         <a-image src="/medium.jpg" />
         <a-image src="/1606136590_ufa-0.jpg" />
         <a-image src="street.jpg" />
