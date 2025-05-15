@@ -205,7 +205,3 @@ const wayRef = ref(null);
     </div>
 
 </template>
-    
-
-<style scoped>
-</style>

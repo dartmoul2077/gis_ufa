@@ -44,7 +44,7 @@
   
           // === Слой маршрута ===
           const routeSource = new VectorSource();
-          fetch('/shen_ko.geojson')
+          fetch('./shen_ko.geojson')
             .then((response) => response.json())
             .then((data) => {
               const geojsonFormat = new GeoJSON();

@@ -44,7 +44,7 @@
   
           // === Слой маршрута ===
           const routeSource = new VectorSource();
-          fetch('/mendeleev.geojson')
+          fetch('./mendeleev.geojson')
             .then((response) => response.json())
             .then((data) => {
               const geojsonFormat = new GeoJSON();

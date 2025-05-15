@@ -42,7 +42,7 @@
 
         // === Слой маршрута ===
         const routeSource = new VectorSource();
-        fetch('/ors__v2_directions_{profile}_geojson_post_1733420735317.geojson')
+        fetch('./ors__v2_directions_{profile}_geojson_post_1733420735317.geojson')
           .then((response) => response.json())
           .then((data) => {
             const geojsonFormat = new GeoJSON();

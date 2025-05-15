@@ -50,7 +50,7 @@
           });
   
           // Путь к файлу GeoJSON с маршрутом, который был создан в OpenRouteService
-          const geoJsonFilePath = '/avicena.geojson';
+          const geoJsonFilePath = './avicena.geojson';
   
           // Загрузка GeoJSON
           fetch(geoJsonFilePath)

@@ -70,8 +70,8 @@
     <!-- Скрытые изображения для предпросмотра -->
     <div style="display: none">
       <a-image-preview-group :preview="{ visible, onVisibleChange: (vis: boolean) => (visible = vis) }">
-        <a-image src="/medium.jpg" />
-        <a-image src="/1606136590_ufa-0.jpg" />
+        <a-image src="./medium.jpg" />
+        <a-image src="./1606136590_ufa-0.jpg" />
         <a-image src="street.jpg" />
       </a-image-preview-group>
     </div>

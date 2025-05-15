@@ -84,7 +84,7 @@
   
           // === Слой маршрута ===
           const routeSource = new VectorSource();
-          fetch('/sokrat.geojson')
+          fetch('./sokrat.geojson')
             .then((response) => response.json())
             .then((data) => {
               const geojsonFormat = new GeoJSON();

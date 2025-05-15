@@ -11,7 +11,7 @@
   
       <!-- Картинка с предпросмотром -->
       <div class="relative  py-1 ">
-        <a-image :preview="{ visible: false }" :width="400" src="/сократ_кампус.jpg" class="main-image"
+        <a-image :preview="{ visible: false }" :width="400" src="./сократ_кампус.jpg" class="main-image"
           @click="visible = true" />
       </div>
   
@@ -31,7 +31,7 @@
       <!-- Скрытые изображения для предпросмотра -->
       <div style="display: none">
         <a-image-preview-group :preview="{ visible, onVisibleChange: (vis: boolean) => (visible = vis)  }">
-          <a-image src="/сократ_кампус.jpg" />
+          <a-image src="./сократ_кампус.jpg" />
         </a-image-preview-group>
       </div>
   

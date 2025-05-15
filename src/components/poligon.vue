@@ -11,7 +11,7 @@
   
       <!-- Картинка с предпросмотром -->
       <div class="relative  py-1 ">
-        <a-image :preview="{ visible: false }" :width="400" src="/poligon_1.jpg" class="main-image"
+        <a-image :preview="{ visible: false }" :width="400" src="./poligon_1.jpg" class="main-image"
           @click="visible = true" />
       </div>
   
@@ -31,8 +31,8 @@
       <!-- Скрытые изображения для предпросмотра -->
       <div style="display: none">
         <a-image-preview-group :preview="{ visible, onVisibleChange: (vis: boolean) => (visible = vis)  }">
-          <a-image src="/poligon_1.jpg" />
-          <a-image src="/poligon_2.jpg" />
+          <a-image src="./poligon_1.jpg" />
+          <a-image src="./poligon_2.jpg" />
         </a-image-preview-group>
       </div>
   
