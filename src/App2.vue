@@ -8,6 +8,7 @@ import routePif from './components/routePif.vue';
 import popup from './components/popup.vue';
 import popup_vernadsky from './components/popup_vernadsky.vue';
 import popup_sokrat from './components/popup_sokrat.vue';
+import popup_tsiolkovsky from './components/popup_tsiolkovsky.vue';
 import testpop from './components/testpop.vue';
 import register from './views/register.vue';
 import signIn from './views/signIn.vue';
@@ -31,13 +32,19 @@ import uust from './components/uust.vue';
 import favoritesPage from './components/favoritesPage.vue';
 import vernadsky_1 from './components/vernadsky_1.vue';
 import vernadsky_2 from './components/vernadsky_2.vue';
-import vernadsky_3 from './components/vernadsky_1.vue';
+import vernadsky_3 from './components/vernadsky_3.vue';
 import sokrat_1 from './components/sokrat_1.vue';
 import sokrat_2 from './components/sokrat_2.vue';
 import sokrat_3 from './components/sokrat_3.vue';
 import sokrat_4 from './components/sokrat_4.vue';
 import sokrat_5 from './components/sokrat_5.vue';
 import sokrat_6 from './components/sokrat_6.vue';
+import tsiolkovsky_1 from './components/tsiolkovsky_1.vue';
+import tsiolkovsky_2 from './components/tsiolkovsky_2.vue';
+import tsiolkovsky_3 from './components/tsiolkovsky_3.vue';
+import tsiolkovsky_4 from './components/tsiolkovsky_4.vue';
+import tsiolkovsky_5 from './components/tsiolkovsky_5.vue';
+import tsiolkovsky_6 from './components/tsiolkovsky_6.vue';
 import { onMounted, ref } from 'vue';
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
@@ -125,16 +132,23 @@ const wayRef = ref(null);
             <tech_park v-if="currentPage === 'tech_park'" @navigateBack="currentPage = 'page2'"/>
             <uust v-if="currentPage === 'uust'" @navigateBack="currentPage = 'page2'"/>
 
-            <vernadsky_1 v-if="currentPage === 'vernadsky_1'" @navigateBack="currentPage = 'page2'"/>
-            <vernadsky_2 v-if="currentPage === 'vernadsky_2'" @navigateBack="currentPage = 'page2'"/>
-            <vernadsky_3 v-if="currentPage === 'vernadsky_3'" @navigateBack="currentPage = 'page2'"/>
+            <vernadsky_1 v-if="currentPage === 'vernadsky_1'" @navigateBack="currentPage = 'page2_vernadsky'"/>
+            <vernadsky_2 v-if="currentPage === 'vernadsky_2'" @navigateBack="currentPage = 'page2_vernadsky'"/>
+            <vernadsky_3 v-if="currentPage === 'vernadsky_3'" @navigateBack="currentPage = 'page2_vernadsky'"/>
 
-            <sokrat_1 v-if="currentPage === 'sokrat_1'" @navigateBack="currentPage = 'page2'"/>
-            <sokrat_2 v-if="currentPage === 'sokrat_2'" @navigateBack="currentPage = 'page2'"/>
-            <sokrat_3 v-if="currentPage === 'sokrat_3'" @navigateBack="currentPage = 'page2'"/>
-            <sokrat_4 v-if="currentPage === 'sokrat_4'" @navigateBack="currentPage = 'page2'"/>
-            <sokrat_5 v-if="currentPage === 'sokrat_5'" @navigateBack="currentPage = 'page2'"/>
-            <sokrat_6 v-if="currentPage === 'sokrat_6'" @navigateBack="currentPage = 'page2'"/>
+            <sokrat_1 v-if="currentPage === 'sokrat_1'" @navigateBack="currentPage = 'page2_sokrat'"/>
+            <sokrat_2 v-if="currentPage === 'sokrat_2'" @navigateBack="currentPage = 'page2_sokrat'"/>
+            <sokrat_3 v-if="currentPage === 'sokrat_3'" @navigateBack="currentPage = 'page2_sokrat'"/>
+            <sokrat_4 v-if="currentPage === 'sokrat_4'" @navigateBack="currentPage = 'page2_sokrat'"/>
+            <sokrat_5 v-if="currentPage === 'sokrat_5'" @navigateBack="currentPage = 'page2_sokrat'"/>
+            <sokrat_6 v-if="currentPage === 'sokrat_6'" @navigateBack="currentPage = 'page2_sokrat'"/>
+
+            <tsiolkovsky_1 v-if="currentPage === 'tsiolkovsky_1'" @navigateBack="currentPage = 'page2_tsiolkovsky'"/>
+            <tsiolkovsky_2 v-if="currentPage === 'tsiolkovsky_2'" @navigateBack="currentPage = 'page2_tsiolkovsky'"/>
+            <tsiolkovsky_3 v-if="currentPage === 'tsiolkovsky_3'" @navigateBack="currentPage = 'page2_tsiolkovsky'"/>
+            <tsiolkovsky_4 v-if="currentPage === 'tsiolkovsky_4'" @navigateBack="currentPage = 'page2_tsiolkovsky'"/>
+            <tsiolkovsky_5 v-if="currentPage === 'tsiolkovsky_5'" @navigateBack="currentPage = 'page2_tsiolkovsky'"/>
+            <tsiolkovsky_6 v-if="currentPage === 'tsiolkovsky_6'" @navigateBack="currentPage = 'page2_tsiolkovsky'"/>
 
             <favoritesPage 
                 v-if="currentPage === 'favorites'" 
@@ -166,8 +180,7 @@ const wayRef = ref(null);
             <popup_vernadsky v-else-if="currentRoute === 'routeVernadsky'"
             @navigateToMainK="currentPage = 'vernadsky_1'"
             @navigateToMainUust="currentPage = 'vernadsky_2'"
-            @navigateToNotsRb="currentPage = 'vernadsky_3'"    
-            />
+            @navigateToNotsRb="currentPage = 'vernadsky_3'"/>
 
             <popup_sokrat v-else-if="currentRoute === 'routeSokrat'"
             @navigateToNotsRB="currentPage = 'sokrat_1'"
@@ -175,11 +188,17 @@ const wayRef = ref(null);
             @navigateToGumK="currentPage = 'sokrat_3'"
             @UFiS_Ran="currentPage = 'sokrat_4'"
             @BGPU="currentPage = 'sokrat_5'"
-            @UGNTU="currentPage = 'sokrat_6'"    
-            />
+            @UGNTU="currentPage = 'sokrat_6'"/>
+
+            <popup_tsiolkovsky v-else-if="currentRoute === 'routeTsiolkovsky'"
+            @navigateToNoTSRB="currentPage = 'tsiolkovsky_1'"
+            @MC="currentPage = 'tsiolkovsky_2'"
+            @Intel="currentPage = 'tsiolkovsky_3'"
+            @Evren="currentPage = 'tsiolkovsky_4'"
+            @Planet="currentPage = 'tsiolkovsky_5'"
+            @Run="currentPage = 'tsiolkovsky_6'"/>
 
             <routeShenko v-else-if="currentRoute === 'routeShenko'" />
-            <routeTsiolkovsky v-else-if="currentRoute === 'routeTsiolkovsky'"/>
             <routeMendeleev v-else-if="currentRoute === 'routeMendeleev'"/>
         </div>
 

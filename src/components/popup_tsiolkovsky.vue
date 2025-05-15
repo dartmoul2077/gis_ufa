@@ -40,7 +40,7 @@
 
 
   export default {
-    emits: ['navigateToGumK', 'navigateToMainKUust', 'navigateToNotsRB', 'UFiS_Ran', 'BGPU', 'UGNTU'], // Объявляем событие
+    emits: ['navigateToNoTSRB', 'MC', 'Intel', 'Evren', 'Planet', 'Run'], // Объявляем событие
     setup(_, {emit}) {
       const popupVisible = ref(false);
       const popupText = ref('Точка на карте');
@@ -53,7 +53,7 @@
       const defaultPointStyle = new Style({
         image: new Circle({
         radius: 7,
-        fill: new Fill({ color: 'rgba(255,184,0,255)' }),
+        fill: new Fill({ color: 'rgba(255,107,0,255)' }),
         stroke: new Stroke({ color: 'black', width: 1 }),
         }),
       });
@@ -84,7 +84,7 @@
   
           // === Слой маршрута ===
           const routeSource = new VectorSource();
-          fetch('/sokrat.geojson')
+          fetch('/tsiolkovsky.geojson')
             .then((response) => response.json())
             .then((data) => {
               const geojsonFormat = new GeoJSON();
@@ -94,7 +94,7 @@
   
               const routeStyle = new Style({
                 stroke: new Stroke({
-                  color: 'rgba(255,184,0,255)', // Полупрозрачный маршрут
+                  color: 'rgba(255,107,0,255)', // Полупрозрачный маршрут
                   width: 4,
                 }),
               });
@@ -113,18 +113,18 @@
         // === Слой точек ===
         const pointSource = new VectorSource();
         const coordinates = [
-          [55.936081, 54.720401, "Кампус Евразийского НОЦ РБ", "ул. З. Валиди 32/2", "https://campus.nocrb.ru/"],
-          [55.93341, 54.720888, "Главный корпус УУНиТ", "ул. З. Валиди 32", "https://uust.ru/"],
-          [55.937071, 54.718473, "Гуманитарный корпус УУНиТ", "ул. К. Маркса 3/1", "https://uust.ru/education/igsn/"],
-          [55.939, 54.72105, "ИЭИ им.Кузеева УФИЦ РАН", "ул. К. Маркса 6", "https://ikuzeev.ru/"],
-          [55.948444,54.724235, "БГПУ им. Акмуллы", "ул. Октябрьской революции, 3а", "https://bspu.ru/index.php?id=1%27'"],
-          [55.971003,54.725573, "ИЭС УГНТУ", "ул. Чернышевского, 145", "https://ies.rusoil.net/"],
+          [55.936081, 54.720401, "Кампус Евразийского НОЦ РБ", "ул. Заки Валиди, 32/2", "https://campus.nocrb.ru/"],
+          [55.947889, 54.726752, "Музей связи", "ул. Ленина, 30/1", "https://uust.ru/"],
+          [55.990613, 54.696529, "Интерактивный музей «Интеллектус»", "ул. Софьи Перовской, 52/2", "https://intellectus-ufa.ru/"],
+          [56.031938, 54.779658, "Эврен", "ул. Проспект Октября, 128", "https://vk.com/evren_lounge"],
+          [56.023481, 54.774103, "Уфимский городской планетарий", "ул. Проспект Октября, 79/2", "https://ufaplanetarium.ru/"],
+          [56.015727, 54.767287, "УФИЦ РАН", "ул. Проспект Октября, 71", "http://ufaras.ru/"],
         ];
   
         const pointStyle = new Style({
           image: new Circle({
             radius: 7,
-            fill: new Fill({ color: 'rgba(255,184,0,255)' }),
+            fill: new Fill({ color: 'rgba(255,107,0,255)' }),
             stroke: new Stroke({ color: 'black', width: 1 }),
           }),
         });
@@ -239,36 +239,36 @@
         if (popupText.value === "Кампус Евразийского НОЦ РБ") {
           hidePopup(); // Плавно скрываем popup перед переходом
           setTimeout(() => {
-            emit('navigateToNotsRB'); // Эмитируем событие для перехода на ufarob.vue
+            emit('navigateToNoTSRB'); // Эмитируем событие для перехода на ufarob.vue
           }, 300); // Ждем, чтобы popup скрылся
-        } else if (popupText.value === "Главный корпус УУНиТ") {
+        } else if (popupText.value === "Музей связи") {
           hidePopup(); // Плавно скрываем popup перед переходом
           setTimeout(() => {
-            emit('navigateToMainKUust'); // Эмитируем событие для перехода на ufanet.vue
-          }, 300); // Ждем, чтобы popup скрылся
-          }
-          else if (popupText.value === "Гуманитарный корпус УУНиТ") {
-          hidePopup(); // Плавно скрываем popup перед переходом
-          setTimeout(() => {
-            emit('navigateToGumK'); // Эмитируем событие для перехода на ufanet.vue
+            emit('MC'); // Эмитируем событие для перехода на ufanet.vue
           }, 300); // Ждем, чтобы popup скрылся
           }
-          else if (popupText.value === "ИЭИ им.Кузеева УФИЦ РАН") {
+          else if (popupText.value === "Интерактивный музей «Интеллектус»") {
           hidePopup(); // Плавно скрываем popup перед переходом
           setTimeout(() => {
-            emit('UFiS_Ran'); // Эмитируем событие для перехода на ufanet.vue
+            emit('Intel'); // Эмитируем событие для перехода на ufanet.vue
           }, 300); // Ждем, чтобы popup скрылся
           }
-          else if (popupText.value === "БГПУ им. Акмуллы") {
+          else if (popupText.value === "Эврен") {
           hidePopup(); // Плавно скрываем popup перед переходом
           setTimeout(() => {
-            emit('BGPU'); // Эмитируем событие для перехода на ufanet.vue
+            emit('Evren'); // Эмитируем событие для перехода на ufanet.vue
           }, 300); // Ждем, чтобы popup скрылся
           }
-          else if (popupText.value === "ИЭС УГНТУ") {
+          else if (popupText.value === "Уфимский городской планетарий") {
           hidePopup(); // Плавно скрываем popup перед переходом
           setTimeout(() => {
-            emit('UGNTU'); // Эмитируем событие для перехода на ufanet.vue
+            emit('Planet'); // Эмитируем событие для перехода на ufanet.vue
+          }, 300); // Ждем, чтобы popup скрылся
+          }
+          else if (popupText.value === "УФИЦ РАН") {
+          hidePopup(); // Плавно скрываем popup перед переходом
+          setTimeout(() => {
+            emit('Run'); // Эмитируем событие для перехода на ufanet.vue
           }, 300); // Ждем, чтобы popup скрылся
           }
           };
