@@ -8,7 +8,7 @@
       </div>
       <div class="legend-item">
         <span class="legend-line" style="background-color: rgba(243, 211, 46, 1)"></span>
-        <span class="legend-label">Маршрут Ависцена</span>
+        <span class="legend-label">Маршрут Авиценна</span>
       </div>
       <div class="legend-item">
         <span class="legend-line" style="background-color: rgba(150, 105, 200, 1)"></span>
@@ -28,7 +28,7 @@
       </div>
       <div class="legend-item">
         <span class="legend-line" style="background-color: rgba(52, 215, 215, 1)"></span>
-        <span class="legend-label">Маршрут Шен-Ко</span>
+        <span class="legend-label">Маршрут Шень Ко</span>
       </div>
     </div>
   </div>
