@@ -9,6 +9,8 @@ import popup from './components/popup.vue';
 import popup_vernadsky from './components/popup_vernadsky.vue';
 import popup_sokrat from './components/popup_sokrat.vue';
 import popup_tsiolkovsky from './components/popup_tsiolkovsky.vue';
+import popup_mendeleev from './components/popup_mendeleev.vue';
+import popup_shenko from './components/popup_shenko.vue';
 import testpop from './components/testpop.vue';
 import register from './views/register.vue';
 import signIn from './views/signIn.vue';
@@ -45,6 +47,12 @@ import tsiolkovsky_3 from './components/tsiolkovsky_3.vue';
 import tsiolkovsky_4 from './components/tsiolkovsky_4.vue';
 import tsiolkovsky_5 from './components/tsiolkovsky_5.vue';
 import tsiolkovsky_6 from './components/tsiolkovsky_6.vue';
+import mendeleev_1 from './components/mendeleev_1.vue';
+import mendeleev_2 from './components/mendeleev_2.vue';
+import shenko_1 from './components/shenko_1.vue';
+import shenko_2 from './components/shenko_2.vue';
+import shenko_3 from './components/shenko_3.vue';
+import shenko_4 from './components/shenko_4.vue';
 import { onMounted, ref } from 'vue';
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
@@ -150,6 +158,14 @@ const wayRef = ref(null);
             <tsiolkovsky_5 v-if="currentPage === 'tsiolkovsky_5'" @navigateBack="currentPage = 'page2_tsiolkovsky'"/>
             <tsiolkovsky_6 v-if="currentPage === 'tsiolkovsky_6'" @navigateBack="currentPage = 'page2_tsiolkovsky'"/>
 
+            <mendeleev_1 v-if="currentPage === 'mendeleev_1'" @navigateBack="currentPage = 'page2_mendeleev'"/>
+            <mendeleev_2 v-if="currentPage === 'mendeleev_2'" @navigateBack="currentPage = 'page2_mendeleev'"/>
+
+            <shenko_1 v-if="currentPage === 'shenko_1'" @navigateBack="currentPage = 'page2_shenko'"/>
+            <shenko_2 v-if="currentPage === 'shenko_2'" @navigateBack="currentPage = 'page2_shenko'"/>
+            <shenko_3 v-if="currentPage === 'shenko_3'" @navigateBack="currentPage = 'page2_shenko'"/>
+            <shenko_4 v-if="currentPage === 'shenko_4'" @navigateBack="currentPage = 'page2_shenko'"/>
+
             <favoritesPage 
                 v-if="currentPage === 'favorites'" 
                 :routes="wayRef?.routes"
@@ -198,8 +214,18 @@ const wayRef = ref(null);
             @Planet="currentPage = 'tsiolkovsky_5'"
             @Run="currentPage = 'tsiolkovsky_6'"/>
 
-            <routeShenko v-else-if="currentRoute === 'routeShenko'" />
-            <routeMendeleev v-else-if="currentRoute === 'routeMendeleev'"/>
+            <popup_mendeleev v-else-if="currentRoute === 'routeMendeleev'"
+            @UFIX_run="currentPage = 'mendeleev_2'"
+            @UFIS_RUN="currentPage = 'mendeleev_1'"
+            />
+
+            <popup_shenko v-else-if="currentRoute === 'routeShenko'"
+            @NOTSRB="currentPage = 'shenko_1'"
+            @UUST2k="currentPage = 'shenko_2'"
+            @BGAU="currentPage = 'shenko_3'"
+            @UGNTu="currentPage = 'shenko_4'"
+            />
+            
         </div>
 
     </div>
